@@ -58,12 +58,16 @@ export async function askNomi(
   ];
 
   try {
-    const { data, error } = await supabase.functions.invoke("nomi-chat", {
-      body: { messages, language: companion.language },
+    const response = await fetch("/api/nomi-chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages, language: companion.language }),
     });
-    if (error) throw error;
-    const reply = (data as { reply?: string } | null)?.reply?.trim();
-    if (reply) return reply;
+    if (response.ok) {
+      const data = (await response.json()) as { reply?: string };
+      const reply = data.reply?.trim();
+      if (reply) return reply;
+    }
   } catch {
     // fall through to the offline companion voice
   }
