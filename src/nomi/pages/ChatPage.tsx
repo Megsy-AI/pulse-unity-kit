@@ -1,7 +1,17 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUp, PhoneCall } from "lucide-react";
+import { CalendarDays, ListChecks, PhoneCall, Search, ShoppingBag } from "lucide-react";
 
+import { Conversation, ConversationContent, ConversationScrollButton } from "@/components/ai-elements/conversation";
+import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
+import {
+  PromptInput,
+  PromptInputFooter,
+  PromptInputSubmit,
+  PromptInputTextarea,
+  PromptInputTools,
+} from "@/components/ai-elements/prompt-input";
+import { Shimmer } from "@/components/ai-elements/shimmer";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useNomi } from "../store";
@@ -9,19 +19,12 @@ import { NomiAvatar } from "../avatar/NomiAvatar";
 import { detectPose } from "../intent";
 import type { NomiPose } from "../types";
 
-/** Keeps replies looking like a conversation, not like raw markdown. */
 function clean(text: string) {
-  return text
-    .replace(/\*\*(.+?)\*\*/g, "$1")
-    .replace(/^#{1,6}\s*/gm, "")
-    .replace(/^\s*[*-]\s+/gm, "• ")
-    .replace(/`{1,3}/g, "")
-    .trim();
+  return text.replace(/\*\*(.+?)\*\*/g, "$1").replace(/^#{1,6}\s*/gm, "").replace(/^\s*[*-]\s+/gm, "• ").replace(/`{1,3}/g, "").trim();
 }
 
 const POSE_LABEL: Record<NomiPose, { en: string; ar: string }> = {
-  idle: { en: "", ar: "" },
-  wave: { en: "", ar: "" },
+  idle: { en: "", ar: "" }, wave: { en: "", ar: "" },
   think: { en: "Thinking with you", ar: "بفكر معاك" },
   shopping: { en: "Ready to shop", ar: "جاهز للتسوق" },
   reminder: { en: "Keeping time", ar: "هفكرك في وقتها" },
@@ -37,174 +40,91 @@ const POSE_LABEL: Record<NomiPose, { en: string; ar: string }> = {
 export default function ChatPage() {
   const { companion, messages, sendMessage, thinking, speaking, pose, t, language } = useNomi();
   const [draft, setDraft] = useState("");
-  const endRef = useRef<HTMLDivElement>(null);
   const ar = language === "ar";
-
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages.length, thinking]);
-
-  const submit = (event: FormEvent) => {
-    event.preventDefault();
-    const text = draft;
+  const submit = (text: string) => {
+    if (!text.trim() || thinking) return;
     setDraft("");
     void sendMessage(text);
   };
-
   const suggestions = ar
-    ? ["نظّم يومي", "فكرني أشتري لبن بكرة", "لخّصلي الأخبار", "اكتب رسالة شكر"]
-    : ["Plan my day", "Remind me to buy milk", "Summarise the news", "Write a thank-you note"];
-
+    ? [
+        { label: "نظّم يومي", hint: "رتّب مواعيدي ومهامي", icon: CalendarDays },
+        { label: "قائمة التسوق", hint: "فكرني باللي محتاجه", icon: ShoppingBag },
+        { label: "ابحث ولخّص", hint: "هاتلي الخلاصة بسرعة", icon: Search },
+        { label: "رتّب مهامي", hint: "خلّي أولوياتي أوضح", icon: ListChecks },
+      ]
+    : [
+        { label: "Plan my day", hint: "Organise my schedule", icon: CalendarDays },
+        { label: "Shopping list", hint: "Remember what I need", icon: ShoppingBag },
+        { label: "Search and sum up", hint: "Give me the short version", icon: Search },
+        { label: "Sort my tasks", hint: "Make priorities clearer", icon: ListChecks },
+      ];
   const empty = messages.length === 0;
 
   return (
-    <div className="flex min-h-dvh flex-col">
-      <header className="flex items-center justify-between px-5 pt-6 md:px-10">
+    <div className="flex h-dvh min-h-[38rem] flex-col overflow-hidden">
+      <header className="flex h-20 shrink-0 items-center justify-between border-b border-border/70 px-5 md:px-9">
         <div className="flex items-center gap-3">
-          <div className="size-10 overflow-hidden rounded-full bg-primary-soft">
-            <NomiAvatar companion={companion} size={40} floating={false} className="translate-y-1" />
+          <div className="relative grid size-11 place-items-center rounded-full bg-secondary">
+            <NomiAvatar companion={companion} size={48} floating={false} />
+            <span className="absolute bottom-0 end-0 size-3 rounded-full border-2 border-background bg-success" />
           </div>
           <div>
-            <p className="text-sm font-semibold">{companion.name}</p>
-            <p className="text-xs text-muted-foreground">
-              {thinking ? (ar ? "بيفكر…" : "Thinking…") : t("greeting")}
-            </p>
+            <p className="text-[15px] font-bold">{companion.name}</p>
+            <p className="text-xs font-medium text-muted-foreground">{thinking ? (ar ? "بيفكر…" : "Thinking…") : t("greeting")}</p>
           </div>
         </div>
-        <Button asChild variant="ghost" size="icon" className="rounded-full">
-          <Link to="/call" aria-label={t("callNomi")}>
-            <PhoneCall className="size-5" strokeWidth={1.75} />
-          </Link>
+        <Button asChild variant="outline" size="icon" className="size-10 rounded-full bg-card shadow-xs">
+          <Link to="/call" aria-label={t("callNomi")}><PhoneCall className="size-[18px]" strokeWidth={2} /></Link>
         </Button>
       </header>
 
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-5 md:px-6">
+      <main className="relative mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col px-4 md:px-8">
         {empty ? (
-          <div className="flex flex-1 flex-col items-center justify-center py-10 text-center">
-            <NomiAvatar companion={companion} pose="wave" speaking={speaking} size={230} />
-            <h2 className="mt-4 text-2xl font-bold">
-              {ar ? `أهلًا، أنا ${companion.name}` : `Hi, I'm ${companion.name}`}
-            </h2>
-            <p className="mt-1 max-w-sm text-sm text-muted-foreground">{t("heroBody")}</p>
-            <div className="mt-6 flex flex-wrap justify-center gap-2">
-              {suggestions.map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => void sendMessage(s)}
-                  className="rounded-full bg-secondary px-4 py-2 text-sm transition-colors hover:bg-primary-soft hover:text-primary"
-                >
-                  {s}
-                </button>
+          <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto py-5 text-center md:py-8">
+            <NomiAvatar companion={companion} pose="wave" speaking={speaking} size={240} />
+            <h1 className="mt-1 text-3xl font-extrabold md:text-4xl">{ar ? `أهلًا، أنا ${companion.name}` : `Hi, I'm ${companion.name}`}</h1>
+            <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">{t("heroBody")}</p>
+            <div className="mt-7 grid w-full max-w-xl grid-cols-2 gap-2.5 text-start">
+              {suggestions.map(({ label, hint, icon: Icon }) => (
+                <Button key={label} type="button" variant="outline" onClick={() => submit(label)} className="h-auto min-h-20 justify-start gap-3 rounded-xl bg-card px-3.5 py-3 shadow-xs">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-secondary text-primary"><Icon className="size-[18px]" strokeWidth={2} /></span>
+                  <span className="min-w-0 text-start"><span className="block truncate text-sm font-bold">{label}</span><span className="mt-0.5 block truncate text-xs font-normal text-muted-foreground">{hint}</span></span>
+                </Button>
               ))}
             </div>
           </div>
         ) : (
-          <div className="flex flex-1 flex-col justify-end space-y-6 py-6">
-            {messages.map((message, index) => {
-              const showAvatar =
-                message.role === "assistant" &&
-                (message.pose !== "idle" || index === messages.length - 1);
-              const label = POSE_LABEL[message.pose]?.[ar ? "ar" : "en"];
-              return (
-                <div
-                  key={message.id}
-                  className={cn(
-                    "animate-nomi-rise flex gap-3",
-                    message.role === "user" ? "justify-end" : "items-start",
-                  )}
-                >
-                  {message.role === "assistant" ? (
-                    <div className="flex w-16 shrink-0 flex-col items-center">
-                      {showAvatar ? (
-                        <NomiAvatar
-                          companion={companion}
-                          pose={message.pose}
-                          speaking={speaking && index === messages.length - 1}
-                          size={64}
-                          floating={false}
-                        />
-                      ) : (
-                        <div className="mt-2 size-2 rounded-full bg-primary-soft" />
-                      )}
+          <Conversation className="min-h-0 flex-1">
+            <ConversationContent className="mx-auto w-full max-w-3xl gap-7 px-1 py-7 md:px-4">
+              {messages.map((message, index) => {
+                const label = POSE_LABEL[message.pose]?.[ar ? "ar" : "en"];
+                return (
+                  <Message key={message.id} from={message.role} className="animate-nomi-rise gap-3">
+                    {message.role === "assistant" ? <NomiAvatar companion={companion} pose={message.pose} speaking={speaking && index === messages.length - 1} size={52} floating={false} className="mt-[-8px]" /> : null}
+                    <div className={cn("min-w-0", message.role === "assistant" && "flex-1")}>
+                      {message.role === "assistant" && label ? <p className="mb-1.5 text-[11px] font-bold text-primary">{label}</p> : null}
+                      <MessageContent className={cn(message.role === "assistant" && "w-full max-w-none bg-transparent p-0")}>
+                        {message.role === "assistant" ? <MessageResponse className="text-[15px] leading-7">{clean(message.content)}</MessageResponse> : <p className="whitespace-pre-wrap text-[15px] leading-6">{message.content}</p>}
+                      </MessageContent>
                     </div>
-                  ) : null}
-
-                  <div className={cn("max-w-[78%]", message.role === "user" && "text-end")}>
-                    {message.role === "assistant" && label ? (
-                      <p className="mb-1 text-[11px] font-medium text-primary">{label}</p>
-                    ) : null}
-                    <div
-                      className={cn(
-                        "whitespace-pre-wrap text-[15px] leading-relaxed",
-                        message.role === "user"
-                          ? "inline-block rounded-3xl bg-primary px-4 py-2.5 text-start text-primary-foreground"
-                          : "text-foreground",
-                      )}
-                    >
-                      {message.role === "assistant" ? clean(message.content) : message.content}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-
-            {thinking ? (
-              <div className="flex items-center gap-3">
-                <NomiAvatar
-                  companion={companion}
-                  pose={detectPose(messages[messages.length - 1]?.content ?? "")}
-                  size={64}
-                  floating={false}
-                />
-                <div className="flex gap-1">
-                  {[0, 1, 2].map((i) => (
-                    <span
-                      key={i}
-                      className="size-2 animate-bounce rounded-full bg-primary/60"
-                      style={{ animationDelay: `${i * 120}ms` }}
-                    />
-                  ))}
-                </div>
-              </div>
-            ) : null}
-            <div ref={endRef} />
-          </div>
+                  </Message>
+                );
+              })}
+              {thinking ? <div className="flex items-center gap-3"><NomiAvatar companion={companion} pose={detectPose(messages.at(-1)?.content ?? "")} size={52} floating={false} /><Shimmer className="text-sm font-medium">{ar ? "نومي بيفكر…" : "Nomi is thinking…"}</Shimmer></div> : null}
+            </ConversationContent>
+            <ConversationScrollButton />
+          </Conversation>
         )}
 
-        <form
-          onSubmit={submit}
-          className="sticky bottom-20 z-10 mb-4 flex items-end gap-2 rounded-[1.75rem] border border-border bg-card p-2 shadow-[var(--shadow-soft)] md:bottom-6"
-        >
-          <textarea
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey && window.innerWidth >= 768) {
-                e.preventDefault();
-                submit(e);
-              }
-            }}
-            rows={1}
-            placeholder={t("askPlaceholder")}
-            className="max-h-40 min-h-11 flex-1 resize-none bg-transparent px-3 py-2.5 text-[15px] outline-none placeholder:text-muted-foreground"
-          />
-          <Button
-            type="submit"
-            size="icon"
-            disabled={!draft.trim() || thinking}
-            aria-label={t("send")}
-            className="size-11 shrink-0 rounded-full"
-          >
-            <ArrowUp className="size-5" />
-          </Button>
-        </form>
-
-        {/* poses legend keeps the character present without crowding the thread */}
-        <p className="pb-4 text-center text-[11px] text-muted-foreground">
-          {POSE_LABEL[pose]?.[ar ? "ar" : "en"] || ""}
-        </p>
-      </div>
+        <PromptInput onSubmit={({ text }) => submit(text)} className="relative z-10 mx-auto mb-20 w-full max-w-3xl rounded-2xl bg-card shadow-[var(--shadow-composer)] md:mb-5">
+          <PromptInputTextarea value={draft} onChange={(e) => setDraft(e.target.value)} placeholder={t("askPlaceholder")} className="min-h-14 px-4 pt-3.5 text-[15px]" />
+          <PromptInputFooter className="px-2.5 pb-2.5">
+            <PromptInputTools><span className="px-1 text-[11px] font-medium text-muted-foreground">{POSE_LABEL[pose]?.[ar ? "ar" : "en"] || (ar ? "جاهز أساعدك" : "Ready when you are")}</span></PromptInputTools>
+            <PromptInputSubmit status={thinking ? "submitted" : "ready"} disabled={!draft.trim() || thinking} aria-label={t("send")} className="size-9 rounded-full" />
+          </PromptInputFooter>
+        </PromptInput>
+      </main>
     </div>
   );
 }

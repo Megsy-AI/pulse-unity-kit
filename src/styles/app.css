@@ -3,27 +3,27 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ---------------------------------------------------------------------------
-   Nomi design tokens — soft, friendly, premium. Every colour is a token.
+   Nomi design tokens — warm paper, crisp ink, signature cobalt.
 --------------------------------------------------------------------------- */
 :root {
-  --background: oklch(0.985 0.005 285);
-  --foreground: oklch(0.22 0.02 285);
+  --background: oklch(0.985 0.004 95);
+  --foreground: oklch(0.18 0.012 255);
 
   --card: oklch(1 0 0);
   --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
   --popover-foreground: var(--foreground);
 
-  --primary: oklch(0.62 0.17 295);
+  --primary: oklch(0.55 0.2 258);
   --primary-foreground: oklch(0.99 0 0);
-  --primary-soft: oklch(0.94 0.04 295);
-  --primary-glow: oklch(0.74 0.14 320);
+  --primary-soft: oklch(0.94 0.035 255);
+  --primary-glow: oklch(0.7 0.15 245);
 
-  --secondary: oklch(0.96 0.012 285);
-  --secondary-foreground: oklch(0.3 0.02 285);
+  --secondary: oklch(0.958 0.006 95);
+  --secondary-foreground: oklch(0.26 0.012 255);
 
-  --muted: oklch(0.96 0.008 285);
-  --muted-foreground: oklch(0.55 0.02 285);
+  --muted: oklch(0.96 0.006 95);
+  --muted-foreground: oklch(0.53 0.012 255);
 
   --accent: oklch(0.82 0.13 68);
   --accent-foreground: oklch(0.25 0.05 68);
@@ -31,15 +31,16 @@
 
   --mint: oklch(0.8 0.11 170);
   --sky: oklch(0.78 0.11 235);
+  --success: oklch(0.7 0.16 152);
 
   --destructive: oklch(0.6 0.2 25);
   --destructive-foreground: oklch(0.99 0 0);
 
-  --border: oklch(0.92 0.008 285);
-  --input: oklch(0.93 0.008 285);
-  --ring: oklch(0.62 0.17 295);
+  --border: oklch(0.9 0.006 95);
+  --input: oklch(0.91 0.006 95);
+  --ring: oklch(0.55 0.2 258);
 
-  --radius: 1.25rem;
+  --radius: 0.75rem;
 
   --gradient-nomi: linear-gradient(135deg, var(--primary), var(--primary-glow) 55%, var(--accent));
   --gradient-soft: linear-gradient(
@@ -47,9 +48,11 @@
     color-mix(in oklab, var(--primary) 8%, transparent),
     transparent 70%
   );
-  --shadow-soft: 0 1px 2px color-mix(in oklab, var(--foreground) 6%, transparent),
-    0 12px 32px -18px color-mix(in oklab, var(--primary) 45%, transparent);
-  --shadow-float: 0 24px 60px -30px color-mix(in oklab, var(--primary) 55%, transparent);
+  --shadow-soft: 0 1px 2px color-mix(in oklab, var(--foreground) 5%, transparent), 0 10px 28px -20px color-mix(in oklab, var(--foreground) 28%, transparent);
+  --shadow-float: 0 24px 52px -34px color-mix(in oklab, var(--foreground) 55%, transparent);
+  --shadow-character: 0 18px 18px color-mix(in oklab, var(--foreground) 18%, transparent);
+  --shadow-composer: 0 18px 52px -22px color-mix(in oklab, var(--foreground) 30%, transparent), 0 0 0 1px var(--border);
+  --shadow-navigation: 0 16px 36px -20px color-mix(in oklab, var(--foreground) 35%, transparent);
 }
 
 .dark {
@@ -79,6 +82,7 @@
   --border: oklch(0.29 0.02 285);
   --input: oklch(0.3 0.02 285);
   --ring: oklch(0.72 0.15 295);
+  --success: oklch(0.73 0.15 152);
 }
 
 @theme inline {
@@ -101,6 +105,7 @@
   --color-accent-soft: var(--accent-soft);
   --color-mint: var(--mint);
   --color-sky: var(--sky);
+  --color-success: var(--success);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -186,6 +191,11 @@
   }
 }
 
+@keyframes nomi-talk {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-1px) scale(1.012); }
+}
+
 @layer base {
   * {
     border-color: var(--border);
@@ -232,6 +242,14 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.nomi-avatar-aura {
+  background: radial-gradient(circle, color-mix(in oklab, var(--primary) 10%, transparent), transparent 68%);
+}
+
+.nomi-speaking {
+  animation: nomi-talk 420ms ease-in-out infinite;
 }
 
 /* Animated colour edges used by the call screen. */

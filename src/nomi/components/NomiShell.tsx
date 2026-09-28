@@ -33,15 +33,14 @@ export function NomiShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-dvh bg-background">
-      {/* Desktop rail */}
-      <aside className="hidden w-64 shrink-0 flex-col gap-1 border-e border-border bg-card/40 p-4 md:flex">
-        <div className="mb-6 flex items-center gap-3 px-2">
-          <div className="size-11 shrink-0 overflow-hidden rounded-full bg-primary-soft">
-            <NomiAvatar companion={companion} size={44} floating={false} className="translate-y-1" />
+      <aside className="hidden w-56 shrink-0 flex-col gap-1 border-e border-border bg-card px-3 py-5 md:flex">
+        <div className="mb-7 flex items-center gap-3 px-2">
+          <div className="grid size-10 shrink-0 place-items-center rounded-full bg-secondary">
+            <NomiAvatar companion={companion} size={44} floating={false} />
           </div>
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">{companion.name}</p>
-            <p className="truncate text-xs text-muted-foreground">{t("tagline")}</p>
+            <p className="truncate text-[15px] font-extrabold">Nomi</p>
+            <p className="truncate text-[11px] font-medium text-muted-foreground">{companion.name}</p>
           </div>
         </div>
 
@@ -51,9 +50,9 @@ export function NomiShell({ children }: { children: ReactNode }) {
             to={to}
             className={({ isActive }) =>
               cn(
-                "flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors",
                 isActive
-                  ? "bg-primary-soft text-primary"
+                  ? "bg-secondary text-foreground"
                   : "text-muted-foreground hover:bg-secondary hover:text-foreground",
               )
             }
@@ -66,16 +65,15 @@ export function NomiShell({ children }: { children: ReactNode }) {
 
       <div className="flex min-w-0 flex-1 flex-col pb-20 md:pb-0">{children}</div>
 
-      {/* Mobile bar */}
-      <nav className="nomi-glass fixed inset-x-0 bottom-0 z-40 flex items-center justify-around px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 md:hidden">
+      <nav className="fixed inset-x-3 bottom-3 z-40 flex items-center justify-around rounded-2xl border border-border bg-card/95 px-1.5 pb-[max(0.4rem,env(safe-area-inset-bottom))] pt-1.5 shadow-[var(--shadow-navigation)] backdrop-blur-xl md:hidden">
         {NAV.slice(0, 5).map(({ to, key, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}
             className={({ isActive }) =>
               cn(
-                "flex flex-1 flex-col items-center gap-1 rounded-2xl py-1.5 text-[11px] font-medium transition-colors",
-                isActive ? "text-primary" : "text-muted-foreground",
+                "flex flex-1 flex-col items-center gap-1 rounded-xl py-1.5 text-[10px] font-semibold transition-colors",
+                isActive ? "bg-secondary text-foreground" : "text-muted-foreground",
               )
             }
           >
@@ -100,7 +98,7 @@ export function PageHeader({
   return (
     <header className="flex items-start justify-between gap-4 px-5 pb-4 pt-8 md:px-10 md:pt-10">
       <div className="animate-nomi-rise">
-        <h1 className="text-2xl font-bold tracking-tight md:text-3xl">{title}</h1>
+        <h1 className="text-2xl font-extrabold md:text-3xl">{title}</h1>
         {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
       </div>
       {action}
