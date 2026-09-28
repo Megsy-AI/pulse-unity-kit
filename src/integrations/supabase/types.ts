@@ -6104,6 +6104,216 @@ export type Database = {
         }
         Relationships: []
       }
+      nomi_call_sessions: {
+        Row: {
+          created_at: string
+          duration_seconds: number | null
+          ended_at: string | null
+          id: string
+          started_at: string
+          summary: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          duration_seconds?: number | null
+          ended_at?: string | null
+          id?: string
+          started_at?: string
+          summary?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          duration_seconds?: number | null
+          ended_at?: string | null
+          id?: string
+          started_at?: string
+          summary?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nomi_companions: {
+        Row: {
+          accent_color: string
+          base_color: string
+          created_at: string
+          id: string
+          language: string
+          name: string
+          onboarded: boolean
+          personality: string
+          shape: string
+          tone: string
+          updated_at: string
+          user_id: string
+          voice: string
+        }
+        Insert: {
+          accent_color?: string
+          base_color?: string
+          created_at?: string
+          id?: string
+          language?: string
+          name?: string
+          onboarded?: boolean
+          personality?: string
+          shape?: string
+          tone?: string
+          updated_at?: string
+          user_id: string
+          voice?: string
+        }
+        Update: {
+          accent_color?: string
+          base_color?: string
+          created_at?: string
+          id?: string
+          language?: string
+          name?: string
+          onboarded?: boolean
+          personality?: string
+          shape?: string
+          tone?: string
+          updated_at?: string
+          user_id?: string
+          voice?: string
+        }
+        Relationships: []
+      }
+      nomi_memories: {
+        Row: {
+          category: string
+          content: string
+          created_at: string
+          enabled: boolean
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          content: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          content?: string
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nomi_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          pose: string | null
+          role: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          pose?: string | null
+          role: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          pose?: string | null
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nomi_permissions: {
+        Row: {
+          calendar: boolean
+          calls: boolean
+          created_at: string
+          email: boolean
+          id: string
+          memory: boolean
+          microphone: boolean
+          updated_at: string
+          user_id: string
+          web: boolean
+        }
+        Insert: {
+          calendar?: boolean
+          calls?: boolean
+          created_at?: string
+          email?: boolean
+          id?: string
+          memory?: boolean
+          microphone?: boolean
+          updated_at?: string
+          user_id: string
+          web?: boolean
+        }
+        Update: {
+          calendar?: boolean
+          calls?: boolean
+          created_at?: string
+          email?: boolean
+          id?: string
+          memory?: boolean
+          microphone?: boolean
+          updated_at?: string
+          user_id?: string
+          web?: boolean
+        }
+        Relationships: []
+      }
+      nomi_tasks: {
+        Row: {
+          created_at: string
+          done: boolean
+          due_at: string | null
+          id: string
+          kind: string
+          note: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          done?: boolean
+          due_at?: string | null
+          id?: string
+          kind?: string
+          note?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          done?: boolean
+          due_at?: string | null
+          id?: string
+          kind?: string
+          note?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       notification_preferences: {
         Row: {
           app_credits: boolean
