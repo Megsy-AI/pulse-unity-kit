@@ -9,6 +9,16 @@ import { NomiAvatar } from "../avatar/NomiAvatar";
 import { detectPose } from "../intent";
 import type { NomiPose } from "../types";
 
+/** Keeps replies looking like a conversation, not like raw markdown. */
+function clean(text: string) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/^#{1,6}\s*/gm, "")
+    .replace(/^\s*[*-]\s+/gm, "• ")
+    .replace(/`{1,3}/g, "")
+    .trim();
+}
+
 const POSE_LABEL: Record<NomiPose, { en: string; ar: string }> = {
   idle: { en: "", ar: "" },
   wave: { en: "", ar: "" },
