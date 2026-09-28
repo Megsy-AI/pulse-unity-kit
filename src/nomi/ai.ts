@@ -1,4 +1,3 @@
-import { supabase } from "@/integrations/supabase/client";
 import type { NomiCompanion, NomiMemory, NomiMessage } from "./types";
 
 const PERSONALITY: Record<string, { en: string; ar: string }> = {

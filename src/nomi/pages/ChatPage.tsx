@@ -90,7 +90,7 @@ export default function ChatPage() {
             </div>
           </div>
         ) : (
-          <div className="flex-1 space-y-6 py-6">
+          <div className="flex flex-1 flex-col justify-end space-y-6 py-6">
             {messages.map((message, index) => {
               const showAvatar =
                 message.role === "assistant" &&
