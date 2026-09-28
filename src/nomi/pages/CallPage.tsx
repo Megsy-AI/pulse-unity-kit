@@ -48,8 +48,7 @@ export default function CallPage() {
       data-state={state}
       style={
         {
-          "--nomi-call-a": companion.baseColor,
-          "--nomi-call-b": companion.accentColor,
+          "--nomi-edge-intensity": state === "speaking" ? 0.8 : state === "listening" ? 0.5 : 0.3,
         } as React.CSSProperties
       }
     >
