@@ -33,8 +33,7 @@ Do NOT add files under `src/routes/` except real API endpoints — the router is
 
 - State lives in `NomiProvider` (`src/nomi/store.tsx`): localStorage first, Supabase sync
   when signed in, so the app works signed out too.
-- The character is the emotional centre: `NomiAvatar` takes a `pose` derived from the
-  message intent (`detectPose`) and a `speaking` flag that drives lip sync.
+- NomiAvatar uses a consistent original 3D plush image set selected by message pose and speaking state, because visual continuity is central.
 - The call screen is immersive (no shell) and uses the `.nomi-call-edges` animated frame
   with `--nomi-edge-intensity` per call state.
 - Colours, gradients, shadows and animations are tokens in `src/styles/app.css`.

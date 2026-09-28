@@ -9,9 +9,9 @@
 - English / Egyptian Arabic with RTL, light and dark themes.
 - Local-first state with Supabase sync into the `nomi_*` tables.
 - Chat replies through the Lovable AI Gateway server route with an offline fallback.
+- Redesigned Nomi around the original 3D plush companion, clean chat, contextual action cards, and lighter navigation.
 
 ## Open
-- Redesign the full Nomi interface to match the approved clean companion-first reference direction.
 - Real voice on the call screen (speech-to-text + text-to-speech); the screen is currently
   a visual simulation with mic/speaker controls.
 - Nomi creating tasks and memories automatically from the conversation.
