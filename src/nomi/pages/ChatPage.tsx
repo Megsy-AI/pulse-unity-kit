@@ -142,7 +142,7 @@ export default function ChatPage() {
                           : "text-foreground",
                       )}
                     >
-                      {message.content}
+                      {message.role === "assistant" ? clean(message.content) : message.content}
                     </div>
                   </div>
                 </div>
