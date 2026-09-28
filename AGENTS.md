@@ -1,79 +1,56 @@
-# Megsy — Agent Handbook
-
-Read this before touching anything. It captures the decisions that are easy to
-get wrong and expensive to undo.
+# Nomi — Agent Handbook
 
 ## 1. What this project is
 
-Megsy AI (megsyai.com) — a React SPA (react-router-dom) that was imported into a
-TanStack Start shell so it can be built and hosted on Lovable.
+Nomi — a personal AI companion with a custom cartoon character for every user.
+It is a pure React SPA (react-router-dom) inside a thin TanStack Start shell
+used only for hosting on Lovable.
 
-- `src/routes/__root.tsx` — the HTML shell (head, fonts, boot styles, snapshot
-  restore, speculation rules). Do not put page UI here.
-- `src/routes/$.tsx` — catch-all that mounts the SPA for every non-API path.
-- `src/lib/SpaApp.tsx` + `src/lib/spaBoot.ts` — SPA bootstrap (client only).
-- `src/App.tsx` + `src/routes-app/*` — the real router, layouts and page tree.
-- `src/pages/**`, `src/components/**` — the application itself.
-- `src/routes/api/**` — thin TanStack server routes used in local dev only.
+- `src/routes/__root.tsx` — HTML shell (head, fonts, theme/dir boot script). No page UI.
+- `src/routes/index.tsx` + `src/routes/$.tsx` — mount the SPA (`ssr: false`) for every path.
+- `src/lib/spaMount.tsx` → `src/App.tsx` — the real router (BrowserRouter) and page tree.
+- `src/nomi/**` — everything Nomi: `types.ts`, `i18n.ts`, `intent.ts`, `ai.ts`,
+  `store.tsx` (state), `avatar/` (SVG character + lip sync), `pages/`, `components/`.
+- `src/routes/api/**` — server routes only (no page UI).
 
-Rule: new pages go in `src/pages` and get wired in `src/routes-app/AppRoutes.tsx`.
-Do NOT create new files under `src/routes/` except real API endpoints.
+Rule: new pages go in `src/nomi/pages` and are wired in `src/App.tsx`.
+Do NOT add files under `src/routes/` except real API endpoints — the router is React Router.
 
-## 2. Where the provider keys live (important)
+## 2. Backend rules
 
-All provider API keys are stored **in the database**, encrypted, in the
-`service_keys` table (`key_cipher` + `key_iv`), and they are only ever decrypted
-**inside the deployed Supabase Edge Functions**. The app itself never sees a raw
-key and must never try to.
+- External Supabase project `qdnqxjzjecaieuavagvq`. Schema changes go through migrations;
+  never edit `src/integrations/supabase/types.ts` by hand.
+- Every new table, column, function or storage bucket is prefixed `nomi_`.
+  Never drop or alter the legacy Megsy tables that share this database.
+- Nomi data lives in `nomi_companions`, `nomi_tasks`, `nomi_memories`, `nomi_messages`,
+  `nomi_permissions`, `nomi_call_sessions`, all RLS-scoped to `auth.uid()`.
+- Chat runs through the TanStack server route `src/routes/api/nomi-chat.ts` on the Lovable
+  AI Gateway (`LOVABLE_API_KEY`, read inside the handler). New Supabase Edge Functions are
+  not allowed in this stack; `src/nomi/ai.ts` falls back to a local reply when the call fails.
+- Legacy provider keys stay encrypted in `service_keys`; the client never sees a raw key.
 
-Current providers:
+## 3. Front-end rules
 
-| Purpose            | Provider    |
-| ------------------ | ----------- |
-| Text / chat        | Cerebras    |
-| Images + video     | DeAPI, Renderful |
-| Computer / agent   | Browser Use |
-| Code sandbox       | Freestyle   |
+- State lives in `NomiProvider` (`src/nomi/store.tsx`): localStorage first, Supabase sync
+  when signed in, so the app works signed out too.
+- The character is the emotional centre: `NomiAvatar` takes a `pose` derived from the
+  message intent (`detectPose`) and a `speaking` flag that drives lip sync.
+- The call screen is immersive (no shell) and uses the `.nomi-call-edges` animated frame
+  with `--nomi-edge-intensity` per call state.
+- Colours, gradients, shadows and animations are tokens in `src/styles/app.css`.
+  No hardcoded colour utilities in components.
+- English and Egyptian Arabic through `src/nomi/i18n.ts`; the store sets `lang`/`dir`.
 
-Rotation happens in Postgres via `take_service_key(provider)` (least recently
-used, `FOR UPDATE SKIP LOCKED`).
-
-Consequences:
-
-- Chat streams through the Supabase Edge Function (`chat-alibaba`, fast lane
-  `chat-fast`). Media goes through `media-image` / `media-video` functions.
-- The local `/api/chat` proxy (`src/lib/chat/proxyCore.ts`,
-  `src/lib/keys/abliterationKey.ts`) is **off by default**. Enable only for
-  offline provider work with `VITE_LOCAL_CHAT_PROXY=1`.
-- Never add a provider key to `.env` or to the client bundle.
-- Admins can add keys at `/k` (RPC `store_provider_key`, admin-only; counts via
-  `provider_key_counts`).
-
-## 3. Backend rules
-
-- External Supabase project `qdnqxjzjecaieuavagvq`. Schema changes go through
-  migrations; never edit `src/integrations/supabase/types.ts` by hand.
-- Roles live in `user_roles` + `has_role()`. Never trust a client-side role.
-- Anything privileged happens in an edge function or a server function, never
-  in the browser.
-
-## 4. Front-end rules
-
-- Light chat follows `loving-bonds-app`; empty desktop chat is cinematic and isolated from mobile.
-- Localize English and Egyptian Arabic (`ar-eg`) through `useUserLang()`.
-- Snapshots use `#snapshot-preview`; never write into `#root` before hydration.
-- Lazy-load browser-only libraries; read `localStorage` only in effects.
-
-## 5. Checks before shipping
+## 4. Checks before shipping
 
 ```bash
 bunx tsgo --noEmit     # types
 bun run build          # production build
 ```
 
-Then smoke the routes (`/`, `/pricing`, `/chat`, `/settings`, `/usage`,
-`/referrals`) signed in, on mobile width and desktop width.
+Then smoke `/`, `/onboarding`, `/chat`, `/call`, `/tasks`, `/memory`, `/character`,
+`/abilities`, `/privacy` at mobile and desktop width, light and dark.
 
-## 6. Known open items
+## 5. Known open items
 
 See `roadmap.md`.
