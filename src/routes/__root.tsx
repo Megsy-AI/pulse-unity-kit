@@ -11,8 +11,8 @@ import "../styles/app.css";
 
 const BOOT_STYLE = `
 :root { color-scheme: light; }
-html, body { margin: 0; background-color: #fbfaff; }
-#root { min-height: 100dvh; background-color: #fbfaff; }
+  html, body { margin: 0; background-color: #fbfaf7; }
+  #root { min-height: 100dvh; background-color: #fbfaf7; }
 html.dark { color-scheme: dark; }
 html.dark, html.dark body, html.dark #root { background-color: #17161c; }
 `;
@@ -37,10 +37,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { name: "theme-color", content: "#fbfaff" },
+      { name: "theme-color", content: "#fbfaf7" },
     ],
     links: [
-      { rel: "icon", href: "/favicon.ico" },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
