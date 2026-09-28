@@ -11,6 +11,7 @@
 - Chat replies through the Lovable AI Gateway server route with an offline fallback.
 
 ## Open
+- Redesign the full Nomi interface to match the approved clean companion-first reference direction.
 - Real voice on the call screen (speech-to-text + text-to-speech); the screen is currently
   a visual simulation with mic/speaker controls.
 - Nomi creating tasks and memories automatically from the conversation.
