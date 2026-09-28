@@ -117,7 +117,7 @@ export default function ChatPage() {
           </Conversation>
         )}
 
-        <PromptInput onSubmit={({ text }) => submit(text)} className="relative z-10 mx-auto mb-3 w-full max-w-3xl rounded-2xl bg-card shadow-[var(--shadow-composer)] md:mb-5">
+        <PromptInput onSubmit={({ text }) => submit(text)} className="relative z-10 mx-auto mb-20 w-full max-w-3xl rounded-2xl bg-card shadow-[var(--shadow-composer)] md:mb-5">
           <PromptInputTextarea value={draft} onChange={(e) => setDraft(e.target.value)} placeholder={t("askPlaceholder")} className="min-h-14 px-4 pt-3.5 text-[15px]" />
           <PromptInputFooter className="px-2.5 pb-2.5">
             <PromptInputTools><span className="px-1 text-[11px] font-medium text-muted-foreground">{POSE_LABEL[pose]?.[ar ? "ar" : "en"] || (ar ? "جاهز أساعدك" : "Ready when you are")}</span></PromptInputTools>
