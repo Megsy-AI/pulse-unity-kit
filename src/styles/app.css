@@ -196,6 +196,32 @@
   50% { transform: translateY(-1px) scale(1.012); }
 }
 
+@keyframes nomi-breathe {
+  0%, 100% { transform: translateY(1px) rotate(-0.6deg) scale(1, 0.995); }
+  50% { transform: translateY(-2px) rotate(0.7deg) scale(1.008, 1.014); }
+}
+
+@keyframes nomi-eye-blink {
+  0%, 43%, 47%, 82%, 86%, 100% { transform: scaleY(1); }
+  45%, 84% { transform: scaleY(0.08); }
+}
+
+@keyframes nomi-look {
+  0%, 36%, 100% { transform: translateX(0); }
+  43%, 62% { transform: translateX(2px); }
+}
+
+@keyframes nomi-wave {
+  0%, 100% { transform: rotate(-5deg); }
+  35% { transform: rotate(-34deg); }
+  62% { transform: rotate(-20deg); }
+}
+
+@keyframes nomi-glow-heartbeat {
+  0%, 100% { opacity: 0.28; transform: scale(0.96); }
+  50% { opacity: 0.55; transform: scale(1.06); }
+}
+
 @layer base {
   * {
     border-color: var(--border);
@@ -246,11 +272,31 @@
 
 .nomi-avatar-aura {
   background: radial-gradient(circle, color-mix(in oklab, var(--primary) 10%, transparent), transparent 68%);
+  animation: nomi-glow-heartbeat 3.8s ease-in-out infinite;
 }
 
 .nomi-speaking {
   animation: nomi-talk 420ms ease-in-out infinite;
 }
+
+.nomi-avatar-float { animation: nomi-float 5s ease-in-out infinite; }
+.nomi-character { filter: drop-shadow(var(--shadow-character)); }
+.nomi-body { transform-box: fill-box; transform-origin: 50% 80%; animation: nomi-breathe 4.2s ease-in-out infinite; }
+.nomi-ground { fill: color-mix(in oklab, var(--foreground) 14%, transparent); filter: blur(3px); }
+.nomi-crescent, .nomi-prop { fill: var(--nomi-detail); }
+.nomi-eye { transform-box: fill-box; transform-origin: center; animation: nomi-eye-blink 6.2s ease-in-out infinite; }
+.nomi-eye-right { animation-delay: 45ms; }
+.nomi-eye-shine { fill: var(--primary-foreground); animation: nomi-look 7s ease-in-out infinite; }
+.nomi-cheek { fill: color-mix(in oklab, var(--accent) 35%, transparent); }
+.nomi-mouth { transform-box: fill-box; transform-origin: center top; scale: 1 calc(0.38 + var(--nomi-mouth-open) * 0.9); transition: scale 70ms ease-out; fill: var(--foreground); }
+.nomi-tongue { fill: var(--accent); }
+.nomi-arm { transform-box: fill-box; transform-origin: center top; }
+.nomi-pose-wave .nomi-arm-right, .nomi-pose-celebrate .nomi-arm-right { animation: nomi-wave 1.8s ease-in-out infinite; transform-origin: 10% 70%; }
+.nomi-pose-call .nomi-arm-right { transform: rotate(-24deg) translate(-3px, -8px); }
+.nomi-pose-shopping .nomi-arm-right { transform: rotate(12deg) translate(-5px, 4px); }
+.nomi-shopping-bag, .nomi-phone { fill: var(--primary); }
+.nomi-thoughts { opacity: 0.74; }
+.nomi-sparkles { fill: var(--accent); }
 
 /* Animated colour edges used by the call screen. */
 .nomi-call-edges::before {

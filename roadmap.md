@@ -12,7 +12,6 @@
 - Redesigned Nomi around the original 3D plush companion, clean chat, contextual action cards, and lighter navigation.
 
 ## Open
-- Replace the rejected Nomi character concept with a cuter, simpler, original design before animating it.
 - Real voice on the call screen (speech-to-text + text-to-speech); the screen is currently
   a visual simulation with mic/speaker controls.
 - Nomi creating tasks and memories automatically from the conversation.
