@@ -1,6 +1,7 @@
 import { Moon, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useNomi } from "../store";
@@ -39,10 +40,10 @@ const VOICES: Array<{ id: NomiCompanion["voice"]; en: string; ar: string }> = [
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="nomi-card space-y-3 p-5">
+    <Card className="space-y-3 p-5">
       <h2 className="text-sm font-semibold">{title}</h2>
       {children}
-    </section>
+    </Card>
   );
 }
 
@@ -60,19 +61,19 @@ function Chips<T extends string>({
   return (
     <div className="flex flex-wrap gap-2">
       {options.map((option) => (
-        <button
+        <Button variant="outline"
           key={option.id}
           type="button"
           onClick={() => onSelect(option.id)}
           className={cn(
-            "rounded-full border px-4 py-2 text-sm transition-colors",
+            "rounded-md border px-4 py-2 text-sm transition-colors",
             value === option.id
               ? "border-primary bg-primary-soft text-primary"
               : "border-border hover:bg-secondary",
           )}
         >
           {ar ? option.ar : option.en}
-        </button>
+        </Button>
       ))}
     </div>
   );
@@ -90,7 +91,7 @@ export default function CharacterPage() {
       />
 
       <div className="mx-auto grid w-full max-w-4xl gap-5 px-5 pb-10 md:grid-cols-[280px_1fr] md:px-6">
-        <div className="sticky top-8 flex h-fit flex-col items-center overflow-hidden rounded-3xl bg-primary-soft/50 p-4">
+        <div className="sticky top-8 flex h-fit flex-col items-center overflow-hidden border-x border-border bg-secondary/50 p-4">
           <NomiAvatar companion={companion} pose="idle" size={250} floating={false} />
           <p className="mt-3 text-lg font-semibold">{companion.name}</p>
         </div>
@@ -101,19 +102,19 @@ export default function CharacterPage() {
               value={companion.name}
               maxLength={20}
               onChange={(e) => updateCompanion({ name: e.target.value })}
-              className="h-11 rounded-2xl"
+              className="h-11 rounded-md"
             />
           </Section>
 
           <Section title={ar ? "المظهر والنظارة والملابس" : "Look, glasses and outfit"}>
             <div className="grid grid-cols-2 gap-2">
               {LOOKS.map((look) => (
-                <button
+                <Button variant="outline"
                   key={look.id}
                   type="button"
                   onClick={() => updateCompanion(chooseLook(look))}
                   className={cn(
-                    "rounded-xl border p-2 text-start transition-colors",
+                    "h-auto flex-col rounded-md border p-2 text-start transition-colors",
                     companion.shape === look.id
                       ? "border-primary bg-primary-soft"
                       : "border-border hover:border-primary/40",
@@ -125,7 +126,7 @@ export default function CharacterPage() {
                     floating={false}
                   />
                   <span className="block px-1 pb-1 text-xs font-medium">{ar ? look.ar : look.en}</span>
-                </button>
+                </Button>
               ))}
             </div>
           </Section>
@@ -175,7 +176,7 @@ export default function CharacterPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className="rounded-full"
+                className="rounded-md"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               >
                 {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
@@ -185,7 +186,7 @@ export default function CharacterPage() {
             {session ? (
               <Button
                 variant="ghost"
-                className="w-full justify-start rounded-2xl text-destructive hover:text-destructive"
+                className="w-full justify-start rounded-md text-destructive hover:text-destructive"
                 onClick={() => void signOut()}
               >
                 {t("signOut")}

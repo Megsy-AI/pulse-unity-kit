@@ -57,13 +57,14 @@ export default function OnboardingPage() {
   };
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-5xl flex-col px-6 py-10">
-      <div className="flex items-center justify-center gap-2">
+    <main className="mx-auto flex min-h-dvh max-w-5xl flex-col px-5 py-8 md:px-8">
+      <div className="flex items-center justify-between border-b border-border pb-5"><span className="font-display text-xl font-bold">Nomi<span className="text-primary">.</span></span><span className="font-display text-xs font-semibold text-muted-foreground">{String(step + 1).padStart(2, "0")} / 04</span></div>
+      <div className="mt-5 flex items-center justify-center gap-2">
         {steps.map((label, index) => (
           <div key={label} className="flex items-center gap-2">
             <span
               className={cn(
-                "flex size-7 items-center justify-center rounded-full text-xs font-semibold transition-colors",
+                "flex size-7 items-center justify-center rounded-md text-xs font-semibold transition-colors",
                 index <= step ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground",
               )}
             >
@@ -74,10 +75,10 @@ export default function OnboardingPage() {
         ))}
       </div>
 
-      <h1 className="mt-8 text-center text-2xl font-bold md:text-3xl">{t("onboardTitle")}</h1>
+      <h1 className="mt-7 text-center text-3xl font-semibold md:text-4xl">{t("onboardTitle")}</h1>
 
       <div className="mt-6 grid flex-1 items-start gap-8 md:grid-cols-2">
-        <div className="sticky top-8 flex min-h-[330px] justify-center overflow-hidden rounded-3xl bg-primary-soft/50 p-4">
+        <div className="sticky top-8 flex min-h-[330px] justify-center overflow-hidden border-x border-border bg-secondary/50 p-4">
           <NomiAvatar companion={companion} pose="idle" size={300} floating={false} />
         </div>
 
@@ -88,12 +89,12 @@ export default function OnboardingPage() {
                 <p className="mb-3 text-sm font-medium">{ar ? "اختار شخصيتك" : "Choose your character"}</p>
                 <div className="grid grid-cols-2 gap-3">
                   {LOOKS.map((look) => (
-                    <button
+                    <Button
                       key={look.id}
                       type="button"
                       onClick={() => updateCompanion(chooseLook(look))}
                       className={cn(
-                        "rounded-xl border p-2 text-center transition-all",
+                        "h-auto min-h-36 flex-col rounded-md border p-2 text-center transition-all",
                         companion.shape === look.id
                           ? "border-primary bg-primary-soft"
                           : "border-border hover:border-primary/40",
@@ -107,7 +108,7 @@ export default function OnboardingPage() {
                       <span className="mt-1 block text-xs font-medium">
                         {ar ? look.ar : look.en}
                       </span>
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -116,15 +117,15 @@ export default function OnboardingPage() {
                 <p className="mb-3 text-sm font-medium">{ar ? "النظارة" : "Glasses"}</p>
                 <div className="grid grid-cols-2 gap-2">
                   {LOOKS.map((look) => (
-                    <button
+                    <Button
                       key={look.glasses}
                       type="button"
                       onClick={() => updateCompanion(chooseLook(look))}
                       className={cn(
-                        "rounded-xl border px-3 py-2 text-sm",
+                        "rounded-md border px-3 py-2 text-sm",
                         companion.glasses === look.glasses ? "border-primary bg-primary-soft text-primary" : "border-border",
                       )}
-                    >{look.glassesLabel}</button>
+                    >{look.glassesLabel}</Button>
                   ))}
                 </div>
               </div>
@@ -133,7 +134,7 @@ export default function OnboardingPage() {
                 <p className="mb-3 text-sm font-medium">{ar ? "الملابس" : "Outfit"}</p>
                 <div className="grid grid-cols-2 gap-2">
                   {LOOKS.map((look) => (
-                    <button key={look.outfit} type="button" onClick={() => updateCompanion(chooseLook(look))} className={cn("rounded-xl border px-3 py-2 text-sm", companion.outfit === look.outfit ? "border-primary bg-primary-soft text-primary" : "border-border")}>{look.outfitLabel}</button>
+                    <Button key={look.outfit} type="button" variant="outline" onClick={() => updateCompanion(chooseLook(look))} className={cn("rounded-md border px-3 py-2 text-sm", companion.outfit === look.outfit ? "border-primary bg-primary-soft text-primary" : "border-border")}>{look.outfitLabel}</Button>
                   ))}
                 </div>
               </div>
@@ -147,19 +148,19 @@ export default function OnboardingPage() {
                 value={companion.name}
                 maxLength={20}
                 onChange={(e) => updateCompanion({ name: e.target.value })}
-                className="h-12 rounded-2xl text-lg"
+                className="h-12 rounded-md text-lg"
                 placeholder="Nomi"
               />
               <div className="flex flex-wrap gap-2">
                 {["Nomi", "Luna", "Zeko", "سمسم", "نور", "Miso"].map((name) => (
-                  <button
+                  <Button variant="secondary"
                     key={name}
                     type="button"
                     onClick={() => updateCompanion({ name })}
-                    className="rounded-full bg-secondary px-4 py-1.5 text-sm hover:bg-primary-soft"
+                    className="h-9 rounded-md px-4 text-sm hover:bg-primary-soft"
                   >
                     {name}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -171,19 +172,19 @@ export default function OnboardingPage() {
                 <p className="mb-3 text-sm font-medium">{t("personalityLabel")}</p>
                 <div className="flex flex-wrap gap-2">
                   {PERSONALITIES.map((item) => (
-                    <button
+                    <Button variant="outline"
                       key={item.id}
                       type="button"
                       onClick={() => updateCompanion({ personality: item.id })}
                       className={cn(
-                        "rounded-full border px-4 py-2 text-sm transition-colors",
+                        "rounded-md border px-4 py-2 text-sm transition-colors",
                         companion.personality === item.id
                           ? "border-primary bg-primary-soft text-primary"
                           : "border-border hover:bg-secondary",
                       )}
                     >
                       {ar ? item.ar : item.en}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -191,19 +192,19 @@ export default function OnboardingPage() {
                 <p className="mb-3 text-sm font-medium">{t("toneLabel")}</p>
                 <div className="flex flex-wrap gap-2">
                   {TONES.map((item) => (
-                    <button
+                    <Button variant="outline"
                       key={item.id}
                       type="button"
                       onClick={() => updateCompanion({ tone: item.id })}
                       className={cn(
-                        "rounded-full border px-4 py-2 text-sm transition-colors",
+                        "rounded-md border px-4 py-2 text-sm transition-colors",
                         companion.tone === item.id
                           ? "border-primary bg-primary-soft text-primary"
                           : "border-border hover:bg-secondary",
                       )}
                     >
                       {ar ? item.ar : item.en}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -217,12 +218,12 @@ export default function OnboardingPage() {
                 { id: "en" as const, label: "English" },
                 { id: "ar" as const, label: "العربية المصرية" },
               ].map((option) => (
-                <button
+                <Button variant="outline"
                   key={option.id}
                   type="button"
                   onClick={() => updateCompanion({ language: option.id })}
                   className={cn(
-                    "flex w-full items-center justify-between rounded-2xl border px-5 py-4 text-start transition-colors",
+                    "flex h-auto w-full items-center justify-between rounded-md border px-5 py-4 text-start transition-colors",
                     companion.language === option.id
                       ? "border-primary bg-primary-soft"
                       : "border-border hover:bg-secondary",
@@ -230,19 +231,19 @@ export default function OnboardingPage() {
                 >
                   <span className="font-medium">{option.label}</span>
                   {companion.language === option.id ? <Check className="size-4 text-primary" /> : null}
-                </button>
+                </Button>
               ))}
             </div>
           ) : null}
 
           <div className="flex gap-3 pt-2">
             {step > 0 ? (
-              <Button variant="ghost" className="h-11 rounded-2xl" onClick={() => setStep(step - 1)}>
+              <Button variant="ghost" className="h-11 rounded-md" onClick={() => setStep(step - 1)}>
                 {t("back")}
               </Button>
             ) : null}
             <Button
-              className="h-11 flex-1 rounded-2xl"
+              className="h-11 flex-1 rounded-md"
               onClick={() => (step === 3 ? finish() : setStep(step + 1))}
             >
               {step === 3 ? t("finish") : t("next")}
