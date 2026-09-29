@@ -28,3 +28,4 @@
 - [x] Rebuild chat around a centered companion, seated composer, contextual integration prompt, and borderless thinking state.
 - [x] Redesign the full application with shadcn components using the Paper & Cobalt palette, Space Grotesk + DM Sans, and a centered conversation layout.
 - [x] Rebuild the first-time welcome page as a cinematic video opening followed by a clean, white narrative of Nomi's abilities, approvals, integrations, and privacy.
+- [ ] Replace the supplied prompt video with an original cinematic Nomi background.
