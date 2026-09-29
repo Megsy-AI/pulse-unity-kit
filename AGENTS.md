@@ -33,7 +33,7 @@ Do NOT add files under `src/routes/` except real API endpoints — the router is
 
 - State lives in `NomiProvider` (`src/nomi/store.tsx`): localStorage first, Supabase sync
   when signed in, so the app works signed out too.
-- NomiAvatar is an original animated vector moon-drop with live gestures and lip sync.
+- NomiAvatar uses original seated 3D images with coordinated shape, colour, glasses and clothing presets.
 - The call screen is immersive (no shell) and uses the `.nomi-call-edges` animated frame
   with `--nomi-edge-intensity` per call state.
 - Colours, gradients, shadows and animations are tokens in `src/styles/app.css`.
