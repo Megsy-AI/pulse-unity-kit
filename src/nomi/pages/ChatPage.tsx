@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { CalendarDays, ListChecks, PhoneCall, Search, ShoppingBag } from "lucide-react";
+import { CalendarDays, Link2, ListChecks, Search, ShoppingBag } from "lucide-react";
 
 import { Conversation, ConversationContent, ConversationScrollButton } from "@/components/ai-elements/conversation";
 import { Message, MessageContent, MessageResponse } from "@/components/ai-elements/message";
@@ -38,7 +38,7 @@ const POSE_LABEL: Record<NomiPose, { en: string; ar: string }> = {
 };
 
 export default function ChatPage() {
-  const { companion, messages, sendMessage, thinking, speaking, pose, t, language } = useNomi();
+  const { companion, messages, sendMessage, thinking, speaking, pose, t, language, permissions, setPermission } = useNomi();
   const [draft, setDraft] = useState("");
   const ar = language === "ar";
   const submit = (text: string) => {
@@ -60,30 +60,20 @@ export default function ChatPage() {
         { label: "Sort my tasks", hint: "Make priorities clearer", icon: ListChecks },
       ];
   const empty = messages.length === 0;
+  const requestedIntegration = /calendar|تقويم|موعد|email|بريد|website|موقع/i.test(draft);
+  const chatCompanion = { ...companion, outfit: companion.outfit === "knit" ? "hoodie" as const : "knit" as const, shape: companion.outfit === "knit" ? "robot" as const : "bear" as const, glasses: companion.outfit === "knit" ? "clear-square" as const : "black-oval" as const };
 
   return (
-    <div className="flex h-dvh min-h-[38rem] flex-col overflow-hidden">
-      <header className="flex h-20 shrink-0 items-center justify-between border-b border-border/70 px-5 md:px-9">
-        <div className="flex items-center gap-3">
-          <div>
-            <p className="text-[15px] font-bold">{companion.name}</p>
-            <p className="text-xs font-medium text-muted-foreground">{thinking ? (ar ? "بيفكر…" : "Thinking…") : t("greeting")}</p>
-          </div>
-        </div>
-        <Button asChild variant="outline" size="icon" className="size-10 rounded-full bg-card shadow-xs">
-          <Link to="/call" aria-label={t("callNomi")}><PhoneCall className="size-[18px]" strokeWidth={2} /></Link>
-        </Button>
-      </header>
-
+    <div className="flex h-[calc(100dvh-4rem)] min-h-[36rem] flex-col overflow-hidden">
       <main className="relative mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col px-4 md:px-8">
         {empty ? (
-          <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto py-5 text-center md:py-8">
-            <h1 className="text-3xl font-extrabold md:text-4xl">{ar ? `أهلًا، أنا ${companion.name}` : `Hi, I'm ${companion.name}`}</h1>
-            <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">{t("heroBody")}</p>
+          <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto pb-2 pt-8 text-center">
+            <h1 className="text-3xl font-semibold md:text-4xl">{ar ? "ما الذي تريد إنجازه اليوم؟" : "What can we make easier today?"}</h1>
+            <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">{ar ? `${companion.name} جاهز يسمعك ويرتب الخطوة التالية معك.` : `${companion.name} is ready to listen and shape the next step with you.`}</p>
             <div className="mt-7 grid w-full max-w-xl grid-cols-2 gap-2.5 text-start">
               {suggestions.map(({ label, hint, icon: Icon }) => (
-                <Button key={label} type="button" variant="outline" onClick={() => submit(label)} className="h-auto min-h-20 justify-start gap-3 rounded-xl bg-card px-3.5 py-3 shadow-xs">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-secondary text-primary"><Icon className="size-[18px]" strokeWidth={2} /></span>
+                <Button key={label} type="button" variant="outline" onClick={() => submit(label)} className="h-auto min-h-16 justify-start gap-3 rounded-xl bg-card px-3.5 py-3">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-secondary text-primary"><Icon className="size-[18px]" strokeWidth={1.8} /></span>
                   <span className="min-w-0 text-start"><span className="block truncate text-sm font-bold">{label}</span><span className="mt-0.5 block truncate text-xs font-normal text-muted-foreground">{hint}</span></span>
                 </Button>
               ))}
@@ -105,18 +95,19 @@ export default function ChatPage() {
                   </Message>
                 );
               })}
-              {thinking ? <div className="flex items-center gap-3"><Shimmer className="text-sm font-medium">{ar ? "نومي بيفكر…" : "Nomi is thinking…"}</Shimmer></div> : null}
+              {thinking ? <div className="flex flex-col items-start"><NomiAvatar companion={chatCompanion} pose="think" size={72} floating={false} className="-mb-2 ms-1" /><Shimmer className="text-sm font-medium">{ar ? "نومي بيفكر…" : "Nomi is thinking…"}</Shimmer></div> : null}
             </ConversationContent>
             <ConversationScrollButton />
           </Conversation>
         )}
 
-        <div className="relative z-10 mx-auto mt-28 mb-20 w-full max-w-3xl md:mb-5">
-          <NomiAvatar companion={companion} pose={pose || detectPose(draft)} speaking={speaking} size={150} floating={false} className="pointer-events-none absolute -top-[132px] end-5 z-[-1] drop-shadow-sm md:end-9" />
-        <PromptInput onSubmit={({ text }) => submit(text)} className="w-full rounded-2xl bg-card shadow-[var(--shadow-composer)]">
+        <div className="relative z-10 mx-auto mb-5 mt-24 w-full max-w-3xl">
+          {requestedIntegration && !permissions.calendar ? <div className="mb-3 flex items-center gap-3 rounded-xl border border-border bg-card p-3 text-start"><span className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary-soft text-primary"><Link2 className="size-4" /></span><span className="min-w-0 flex-1"><span className="block text-sm font-semibold">{ar ? "اسمح لنومي بالوصول للتطبيق المطلوب" : "Connect the app Nomi needs"}</span><span className="block text-xs text-muted-foreground">{ar ? "لن يتم أي إجراء بدون موافقتك." : "Nothing happens without your approval."}</span></span><Button size="sm" variant="outline" className="rounded-lg" onClick={() => setPermission("calendar", true)}>{ar ? "سماح" : "Allow"}</Button></div> : null}
+          <NomiAvatar companion={chatCompanion} pose={pose || detectPose(draft)} speaking={speaking} size={138} floating={false} className="pointer-events-none absolute -top-[118px] end-5 z-[-1] md:end-9" />
+        <PromptInput onSubmit={({ text }) => submit(text)} className="w-full rounded-2xl border-border bg-card shadow-[var(--shadow-composer)]">
           <PromptInputTextarea value={draft} onChange={(e) => setDraft(e.target.value)} placeholder={t("askPlaceholder")} className="min-h-14 px-4 pt-3.5 text-[15px]" />
           <PromptInputFooter className="px-2.5 pb-2.5">
-            <PromptInputTools><span className="px-1 text-[11px] font-medium text-muted-foreground">{POSE_LABEL[pose]?.[ar ? "ar" : "en"] || (ar ? "جاهز أساعدك" : "Ready when you are")}</span></PromptInputTools>
+            <PromptInputTools><span className="px-1 text-[11px] font-medium text-muted-foreground">{ar ? "محادثتك خاصة" : "Your conversation is private"}</span></PromptInputTools>
             <PromptInputSubmit status={thinking ? "submitted" : "ready"} disabled={!draft.trim() || thinking} aria-label={t("send")} className="size-9 rounded-full" />
           </PromptInputFooter>
         </PromptInput>

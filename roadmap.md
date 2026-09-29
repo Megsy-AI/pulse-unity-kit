@@ -22,7 +22,7 @@
 - Push notifications for reminders.
 
 ## Current request
-- [ ] Show the Nomi landing page only before setup, then continue through registration and onboarding into chat.
-- [ ] Remove bottom navigation and replace it with a clean top bar and responsive sidebar.
-- [ ] Add Projects and Settings destinations; consolidate integrations and profile access in Settings.
-- [ ] Rebuild chat around a centered companion, seated composer, contextual integration prompt, and borderless thinking state.
+- [x] Show the Nomi landing page only before setup, then continue through registration and onboarding into chat.
+- [x] Remove bottom navigation and replace it with a clean top bar and responsive sidebar.
+- [x] Add Projects and Settings destinations; consolidate integrations and profile access in Settings.
+- [x] Rebuild chat around a centered companion, seated composer, contextual integration prompt, and borderless thinking state.
