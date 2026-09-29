@@ -44,17 +44,18 @@ export default function AuthPage() {
   };
 
   return (
-    <main className="flex min-h-dvh items-center justify-center px-6 py-12">
-      <div className="w-full max-w-sm">
+    <main className="grid min-h-dvh bg-background px-5 py-8 md:grid-cols-[0.9fr_1.1fr] md:p-6">
+      <div className="hidden border-e border-border md:flex md:flex-col md:justify-between md:p-8"><span className="font-display text-xl font-bold">Nomi<span className="text-primary">.</span></span><div><p className="font-display text-xs font-semibold uppercase text-primary">Private by default</p><p className="mt-3 max-w-sm font-display text-4xl font-semibold leading-tight">Your companion, ready where you left off.</p></div><p className="text-xs text-muted-foreground">© 2026 NOMI</p></div>
+      <div className="mx-auto flex w-full max-w-sm flex-col justify-center">
         <div className="flex justify-center">
           <NomiAvatar companion={companion} pose="wave" size={160} />
         </div>
-        <h1 className="mt-4 text-center text-2xl font-bold">
+        <h1 className="mt-2 text-center text-3xl font-semibold">
           {mode === "in" ? t("signIn") : t("signUp")}
         </h1>
         <p className="mt-1 text-center text-sm text-muted-foreground">{t("tagline")}</p>
 
-        <form onSubmit={submit} className="nomi-card mt-6 space-y-4 p-6">
+        <form onSubmit={submit} className="mt-7 space-y-4 border-y border-border py-6">
           <div className="space-y-2">
             <Label htmlFor="email">{t("email")}</Label>
             <Input
@@ -63,7 +64,7 @@ export default function AuthPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="h-11 rounded-2xl"
+              className="h-11 rounded-md"
               autoComplete="email"
             />
           </div>
@@ -76,20 +77,20 @@ export default function AuthPage() {
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="h-11 rounded-2xl"
+              className="h-11 rounded-md"
               autoComplete={mode === "in" ? "current-password" : "new-password"}
             />
           </div>
-          <Button type="submit" disabled={busy} className="h-11 w-full rounded-2xl">
+          <Button type="submit" disabled={busy} className="h-11 w-full rounded-md">
             {mode === "in" ? t("signIn") : t("signUp")}
           </Button>
         </form>
 
         <div className="mt-4 flex flex-col items-center gap-2 text-sm">
-          <button
-            type="button"
+          <Button
+            type="button" variant="link"
             onClick={() => setMode(mode === "in" ? "up" : "in")}
-            className="text-primary hover:underline"
+            className="h-auto p-0"
           >
             {mode === "in"
               ? ar
@@ -98,7 +99,7 @@ export default function AuthPage() {
               : ar
                 ? "لديك حساب بالفعل؟ سجل الدخول"
                 : "Already have an account? Sign in"}
-          </button>
+          </Button>
           <Link to="/onboarding" className="text-muted-foreground hover:underline">
             {t("continueGuest")}
           </Link>

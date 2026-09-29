@@ -46,8 +46,8 @@ export default function AbilitiesPage() {
         <h2 className="mt-6 text-sm font-semibold">{ar ? "متاح الآن" : "Available now"}</h2>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           {now.map(({ icon: Icon, en, ar: arLabel }) => (
-            <div key={en} className="nomi-card flex items-center gap-3 p-4">
-              <span className="flex size-10 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+            <div key={en} className="flex items-center gap-3 rounded-md border border-border bg-card p-4 shadow-sm">
+              <span className="flex size-10 items-center justify-center rounded-md bg-primary-soft text-primary">
                 <Icon className="size-5" strokeWidth={1.75} />
               </span>
               <p className="text-sm font-medium">{ar ? arLabel : en}</p>
@@ -60,9 +60,9 @@ export default function AbilitiesPage() {
           {soon.map(({ icon: Icon, en, ar: arLabel }) => (
             <div
               key={en}
-              className="flex items-center gap-3 rounded-3xl border border-dashed border-border p-4"
+              className="flex items-center gap-3 rounded-md border border-dashed border-border p-4"
             >
-              <span className="flex size-10 items-center justify-center rounded-2xl bg-secondary text-muted-foreground">
+              <span className="flex size-10 items-center justify-center rounded-md bg-secondary text-muted-foreground">
                 <Icon className="size-5" strokeWidth={1.75} />
               </span>
               <div>

@@ -30,9 +30,9 @@ export default function MemoryPage() {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder={ar ? "مثلاً: بحب القهوة سادة" : "e.g. I drink my coffee black"}
-            className="h-11 rounded-2xl"
+            className="h-11 rounded-md"
           />
-          <Button type="submit" className="h-11 rounded-2xl px-5">
+          <Button type="submit" className="h-11 rounded-md px-5">
             <Plus className="size-4" />
             {t("add")}
           </Button>
@@ -48,7 +48,7 @@ export default function MemoryPage() {
             {memories.map((memory) => (
               <div
                 key={memory.id}
-                className="group flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3"
+                className="group flex items-center gap-3 rounded-md border border-border bg-card px-4 py-3 shadow-sm"
               >
                 <Switch
                   checked={memory.enabled}
@@ -56,14 +56,14 @@ export default function MemoryPage() {
                   aria-label={memory.content}
                 />
                 <p className="min-w-0 flex-1 text-[15px]">{memory.content}</p>
-                <button
+                <Button
                   type="button"
                   onClick={() => removeMemory(memory.id)}
                   aria-label={t("delete")}
-                  className="text-muted-foreground opacity-0 transition-opacity hover:text-destructive group-hover:opacity-100"
+                  variant="ghost" size="icon-sm" className="text-muted-foreground opacity-0 transition-opacity hover:text-destructive group-hover:opacity-100"
                 >
                   <Trash2 className="size-4" />
-                </button>
+                </Button>
               </div>
             ))}
           </div>

@@ -31,22 +31,23 @@ function SidebarContent({ close }: { close: () => void }) {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex h-16 items-center gap-3 px-1">
-        <span className="grid size-9 place-items-center overflow-hidden rounded-xl bg-secondary">
+      <div className="flex h-14 items-center gap-3 border-b border-border px-1">
+        <span className="grid size-8 place-items-center overflow-hidden rounded-md bg-secondary">
           <NomiAvatar companion={companion} size={42} floating={false} />
         </span>
         <span className="text-[15px] font-semibold">Nomi</span>
       </div>
-      <nav className="mt-5 space-y-1">
+      <p className="mb-2 mt-6 px-3 font-display text-[10px] font-semibold uppercase text-muted-foreground">Workspace</p>
+      <nav className="space-y-1">
         {NAV.map(({ to, key, icon: Icon }) => (
-          <NavLink key={to} to={to} onClick={close} className={({ isActive }) => cn("flex h-11 items-center gap-3 rounded-lg px-3 text-sm font-medium transition-colors", isActive ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground")}>
+          <NavLink key={to} to={to} onClick={close} className={({ isActive }) => cn("flex h-10 items-center gap-3 rounded-md border px-3 text-sm font-medium transition-colors", isActive ? "border-border bg-secondary text-foreground" : "border-transparent text-muted-foreground hover:bg-secondary hover:text-foreground")}>
             <Icon className="size-[18px]" strokeWidth={1.8} />
             {t(key)}
           </NavLink>
         ))}
       </nav>
       <div className="mt-auto border-t border-border pt-4">
-        <NavLink to="/settings" onClick={close} className={({ isActive }) => cn("flex items-center gap-3 rounded-xl p-2 transition-colors hover:bg-secondary", isActive && "bg-secondary")}>
+        <NavLink to="/settings" onClick={close} className={({ isActive }) => cn("flex items-center gap-3 rounded-md p-2 transition-colors hover:bg-secondary", isActive && "bg-secondary")}>
           <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-full bg-primary-soft"><NomiAvatar companion={companion} size={46} floating={false} /></span>
           <span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold">{userName}</span><span className="block text-xs text-muted-foreground">{t("settings")}</span></span>
           <Settings className="size-4 text-muted-foreground" />
@@ -66,16 +67,16 @@ export function NomiShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-dvh flex-col bg-background">
-      <header className="flex h-16 shrink-0 items-center justify-between border-b border-border/70 bg-card px-4 md:px-6">
+      <header className="flex h-16 shrink-0 items-center justify-between border-b border-border bg-background px-4 md:px-6">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="rounded-xl" onClick={() => setMenuOpen(true)} aria-label={companion.language === "ar" ? "فتح القائمة" : "Open menu"}><Menu className="size-5" /></Button>
+           <Button variant="outline" size="icon" className="size-9 rounded-md" onClick={() => setMenuOpen(true)} aria-label={companion.language === "ar" ? "فتح القائمة" : "Open menu"}><Menu className="size-4" /></Button>
           <div><p className="text-sm font-semibold">{pathname === "/chat" ? companion.name : t(pathname.slice(1) || "chat")}</p><p className="text-[11px] text-muted-foreground">{companion.language === "ar" ? "متصل وجاهز" : "Online and ready"}</p></div>
         </div>
-        <Button variant="outline" size="sm" className="rounded-xl bg-card"><Gem className="size-4 text-primary" />{companion.language === "ar" ? "ترقية" : "Upgrade"}</Button>
+         <Button size="sm" className="rounded-md"><Gem className="size-4" />{companion.language === "ar" ? "ترقية" : "Upgrade"}</Button>
       </header>
       <div className="min-h-0 flex-1">{children}</div>
       <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-        <SheetContent side={companion.language === "ar" ? "right" : "left"} className="w-[286px] rounded-none p-4 sm:max-w-[286px]">
+        <SheetContent side={companion.language === "ar" ? "right" : "left"} className="w-[300px] p-4 sm:max-w-[300px]">
           <SheetTitle className="sr-only">{companion.language === "ar" ? "القائمة" : "Navigation"}</SheetTitle>
           <SidebarContent close={() => setMenuOpen(false)} />
         </SheetContent>
@@ -94,9 +95,9 @@ export function PageHeader({
   action?: ReactNode;
 }) {
   return (
-    <header className="flex items-start justify-between gap-4 px-5 pb-4 pt-8 md:px-10 md:pt-10">
+    <header className="mx-auto flex w-full max-w-5xl items-start justify-between gap-4 border-b border-border px-5 pb-6 pt-8 md:px-8 md:pt-10">
       <div className="animate-nomi-rise">
-        <h1 className="text-2xl font-extrabold md:text-3xl">{title}</h1>
+        <h1 className="text-2xl font-semibold md:text-3xl">{title}</h1>
         {subtitle ? <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p> : null}
       </div>
       {action}

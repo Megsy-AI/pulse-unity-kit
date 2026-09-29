@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Mic, MicOff, PhoneOff, Volume2, VolumeX } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { useNomi } from "../store";
 import { NomiAvatar } from "../avatar/NomiAvatar";
 
@@ -87,38 +88,38 @@ export default function CallPage() {
       </div>
 
       <div className="relative z-10 flex items-center gap-4">
-        <button
+        <Button
           type="button"
           onClick={() => setMuted((m) => !m)}
           aria-label={muted ? t("unmute") : t("mute")}
           className={cn(
-            "flex size-14 items-center justify-center rounded-full transition-colors",
+            "size-14 rounded-full transition-colors",
             muted ? "bg-secondary text-muted-foreground" : "nomi-glass text-foreground",
           )}
         >
           {muted ? <MicOff className="size-5" /> : <Mic className="size-5" />}
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
           onClick={() => navigate("/chat")}
           aria-label={t("endCall")}
-          className="flex size-16 items-center justify-center rounded-full bg-destructive text-destructive-foreground shadow-[var(--shadow-float)] transition-transform hover:scale-105"
+          variant="destructive" className="size-16 rounded-full shadow-[var(--shadow-float)]"
         >
           <PhoneOff className="size-6" />
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
           onClick={() => setSpeaker((s) => !s)}
           aria-label={t("speaker")}
           className={cn(
-            "flex size-14 items-center justify-center rounded-full transition-colors",
+            "size-14 rounded-full transition-colors",
             speaker ? "nomi-glass text-foreground" : "bg-secondary text-muted-foreground",
           )}
         >
           {speaker ? <Volume2 className="size-5" /> : <VolumeX className="size-5" />}
-        </button>
+        </Button>
       </div>
     </main>
   );

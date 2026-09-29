@@ -80,7 +80,7 @@ export default function PrivacyPage() {
       />
 
       <div className="mx-auto w-full max-w-2xl px-5 pb-10 md:px-6">
-        <div className="nomi-card flex items-start gap-3 p-5">
+        <div className="flex items-start gap-3 rounded-md border border-border bg-card p-5 shadow-sm">
           <ShieldCheck className="mt-0.5 size-5 shrink-0 text-primary" strokeWidth={1.75} />
           <p className="text-sm text-muted-foreground">
             {ar
@@ -93,9 +93,9 @@ export default function PrivacyPage() {
           {ITEMS.map(({ key, icon: Icon, en, ar: arLabel, enHint, arHint }) => (
             <div
               key={key}
-              className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3"
+              className="flex items-center gap-3 rounded-md border border-border bg-card px-4 py-3 shadow-sm"
             >
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-secondary text-muted-foreground">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-md bg-secondary text-muted-foreground">
                 <Icon className="size-5" strokeWidth={1.75} />
               </span>
               <div className="min-w-0 flex-1">
@@ -113,7 +113,7 @@ export default function PrivacyPage() {
 
         <Button
           variant="ghost"
-          className="mt-6 w-full rounded-2xl text-destructive hover:text-destructive"
+          className="mt-6 w-full rounded-md text-destructive hover:text-destructive"
           onClick={clearChat}
         >
           {ar ? "امسح سجل المحادثة" : "Clear chat history"}
