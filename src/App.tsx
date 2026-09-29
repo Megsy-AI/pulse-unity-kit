@@ -4,8 +4,8 @@ import { Toaster } from "@/components/ui/sonner";
 
 import { NomiProvider, useNomi } from "@/nomi/store";
 import { NomiShell } from "@/nomi/components/NomiShell";
+import LandingPage from "@/nomi/pages/LandingPage";
 
-const LandingPage = lazy(() => import("@/nomi/pages/LandingPage"));
 const AuthPage = lazy(() => import("@/nomi/pages/AuthPage"));
 const OnboardingPage = lazy(() => import("@/nomi/pages/OnboardingPage"));
 const ChatPage = lazy(() => import("@/nomi/pages/ChatPage"));
