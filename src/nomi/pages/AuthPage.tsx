@@ -85,6 +85,20 @@ export default function AuthPage() {
             {mode === "in" ? t("signIn") : t("signUp")}
           </Button>
         </form>
+        <Button
+          type="button"
+          variant="outline"
+          className="mt-4 h-11 w-full rounded-md"
+          onClick={async () => {
+            const { error } = await supabase.auth.signInWithOAuth({
+              provider: "google",
+              options: { redirectTo: `${window.location.origin}/chat` },
+            });
+            if (error) toast.error(error.message);
+          }}
+        >
+          {ar ? "المتابعة باستخدام جوجل" : "Continue with Google"}
+        </Button>
 
         <div className="mt-4 flex flex-col items-center gap-2 text-sm">
           <Button
