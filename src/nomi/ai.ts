@@ -1,5 +1,4 @@
-import type { NomiCompanion, NomiMemory, NomiMessage, NomiProject, NomiTask } from "./types";
-import type { NomiAction } from "@/routes/api/nomi-chat";
+import type { NomiAction, NomiCompanion, NomiMemory, NomiMessage, NomiProject, NomiTask } from "./types";
 
 export type { NomiAction };
 

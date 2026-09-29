@@ -2,12 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 type ChatMessage = { role: string; content: string };
 
-export type NomiAction =
-  | { type: "create_task"; title: string; note?: string; kind: "task" | "reminder"; due_at?: string | null; project?: string }
-  | { type: "save_memory"; content: string; category: string }
-  | { type: "create_project"; name: string; description?: string }
-  | { type: "complete_task"; title: string }
-  | { type: "request_integration"; integration: "email" | "calendar" | "calls" | "web"; reason: string };
+import type { NomiAction } from "@/nomi/types";
 
 const TOOLS = [
   {
