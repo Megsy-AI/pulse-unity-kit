@@ -24,6 +24,7 @@ const dict: Dict = {
   chat: { en: "Chat", ar: "المحادثة" },
   calls: { en: "Call", ar: "مكالمة" },
   tasks: { en: "Tasks", ar: "المهام" },
+  projects: { en: "Projects", ar: "المشاريع" },
   memory: { en: "Memory", ar: "الذاكرة" },
   persona: { en: "Character", ar: "الشخصية" },
   integrations: { en: "Abilities", ar: "القدرات" },
