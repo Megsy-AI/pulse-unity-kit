@@ -1,4 +1,6 @@
 export type NomiShape = "round" | "cat" | "bear" | "star" | "robot";
+export type NomiGlasses = "cobalt-round" | "clear-square" | "pink-heart" | "black-oval";
+export type NomiOutfit = "varsity" | "hoodie" | "overalls" | "knit";
 
 export type NomiPose =
   | "idle"
@@ -23,6 +25,8 @@ export interface NomiCompanion {
   shape: NomiShape;
   baseColor: string;
   accentColor: string;
+  glasses: NomiGlasses;
+  outfit: NomiOutfit;
   personality: NomiPersonality;
   tone: NomiTone;
   language: NomiLanguage;
@@ -70,6 +74,8 @@ export const DEFAULT_COMPANION: NomiCompanion = {
   shape: "round",
   baseColor: "#7C5CFF",
   accentColor: "#FFB86B",
+  glasses: "cobalt-round",
+  outfit: "varsity",
   personality: "friendly",
   tone: "warm",
   language: "en",

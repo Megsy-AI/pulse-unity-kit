@@ -183,7 +183,8 @@ export function NomiProvider({ children }: { children: ReactNode }) {
       if (cancelled) return;
 
       if (comp) {
-        setCompanion({
+        setCompanion((previous) => ({
+          ...previous,
           name: comp.name,
           shape: comp.shape as NomiCompanion["shape"],
           baseColor: comp.base_color,
@@ -193,7 +194,7 @@ export function NomiProvider({ children }: { children: ReactNode }) {
           language: comp.language as NomiLanguage,
           voice: comp.voice as NomiCompanion["voice"],
           onboarded: comp.onboarded,
-        });
+        }));
       }
       if (rows?.length)
         setTasks(
