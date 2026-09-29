@@ -6139,10 +6139,12 @@ export type Database = {
           accent_color: string
           base_color: string
           created_at: string
+          glasses: string
           id: string
           language: string
           name: string
           onboarded: boolean
+          outfit: string
           personality: string
           shape: string
           tone: string
@@ -6154,10 +6156,12 @@ export type Database = {
           accent_color?: string
           base_color?: string
           created_at?: string
+          glasses?: string
           id?: string
           language?: string
           name?: string
           onboarded?: boolean
+          outfit?: string
           personality?: string
           shape?: string
           tone?: string
@@ -6169,10 +6173,12 @@ export type Database = {
           accent_color?: string
           base_color?: string
           created_at?: string
+          glasses?: string
           id?: string
           language?: string
           name?: string
           onboarded?: boolean
+          outfit?: string
           personality?: string
           shape?: string
           tone?: string
@@ -6218,6 +6224,7 @@ export type Database = {
           created_at: string
           id: string
           pose: string | null
+          project_id: string | null
           role: string
           user_id: string
         }
@@ -6226,6 +6233,7 @@ export type Database = {
           created_at?: string
           id?: string
           pose?: string | null
+          project_id?: string | null
           role: string
           user_id: string
         }
@@ -6234,10 +6242,57 @@ export type Database = {
           created_at?: string
           id?: string
           pose?: string | null
+          project_id?: string | null
           role?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "nomi_messages_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "nomi_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nomi_notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          read: boolean
+          task_id: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          read?: boolean
+          task_id?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          read?: boolean
+          task_id?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "nomi_notifications_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "nomi_tasks"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       nomi_permissions: {
         Row: {
@@ -6278,6 +6333,39 @@ export type Database = {
         }
         Relationships: []
       }
+      nomi_projects: {
+        Row: {
+          archived: boolean
+          color: string
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          archived?: boolean
+          color?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          archived?: boolean
+          color?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       nomi_tasks: {
         Row: {
           created_at: string
@@ -6286,6 +6374,8 @@ export type Database = {
           id: string
           kind: string
           note: string | null
+          project_id: string | null
+          reminded_at: string | null
           title: string
           updated_at: string
           user_id: string
@@ -6297,6 +6387,8 @@ export type Database = {
           id?: string
           kind?: string
           note?: string | null
+          project_id?: string | null
+          reminded_at?: string | null
           title: string
           updated_at?: string
           user_id: string
@@ -6308,11 +6400,21 @@ export type Database = {
           id?: string
           kind?: string
           note?: string | null
+          project_id?: string | null
+          reminded_at?: string | null
           title?: string
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "nomi_tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "nomi_projects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       notification_preferences: {
         Row: {
@@ -12007,6 +12109,7 @@ export type Database = {
         Returns: string
       }
       my_referral_milestone: { Args: never; Returns: Json }
+      nomi_dispatch_due_reminders: { Args: never; Returns: number }
       owns_conversation: {
         Args: { p_conversation_id: string }
         Returns: boolean
