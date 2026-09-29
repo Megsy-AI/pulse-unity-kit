@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SpaMount } from "@/lib/spaMount";
 
-const title = "Nomi — Your own personal AI companion";
-const description =
-  "Nomi gives every person a personal AI companion with its own cartoon character, voice, memory and personality — to chat, organise tasks, set reminders and help with daily life.";
+const title = "Studio — Footer";
+const description = "Fresh ideas, imagination, and creative collaboration.";
 
 export const Route = createFileRoute("/")({
   ssr: false,
