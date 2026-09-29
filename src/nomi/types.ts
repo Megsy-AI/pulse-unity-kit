@@ -50,6 +50,30 @@ export interface NomiTask {
   dueAt?: string | null;
   done: boolean;
   createdAt: string;
+  projectId?: string | null;
+}
+
+export interface NomiProject {
+  id: string;
+  name: string;
+  description?: string;
+  color: string;
+  archived: boolean;
+  createdAt: string;
+}
+
+export interface NomiNotification {
+  id: string;
+  taskId?: string | null;
+  title: string;
+  body?: string | null;
+  read: boolean;
+  createdAt: string;
+}
+
+export interface NomiIntegrationRequest {
+  integration: "email" | "calendar" | "calls" | "web";
+  reason: string;
 }
 
 export interface NomiMemory {
