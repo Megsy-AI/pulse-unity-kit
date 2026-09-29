@@ -88,13 +88,15 @@ export default function TasksPage() {
                   type="button"
                   onClick={() => toggleTask(task.id)}
                   aria-label={task.title}
+                  variant="ghost"
+                  size="icon-sm"
                   className={cn(
                     "size-6 shrink-0 rounded-full border p-0 transition-colors",
                     task.done ? "border-primary bg-primary text-primary-foreground" : "border-border",
                   )}
                 >
-                  variant="ghost" size="icon-sm"
-                >{task.done ? <Check className="size-3.5" /> : null}</Button>
+                  {task.done ? <Check className="size-3.5" /> : null}
+                </Button>
                 <div className="min-w-0 flex-1">
                   <p className={cn("truncate text-[15px]", task.done && "line-through")}>
                     {task.title}
