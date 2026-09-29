@@ -26,3 +26,4 @@
 - [x] Remove bottom navigation and replace it with a clean top bar and responsive sidebar.
 - [x] Add Projects and Settings destinations; consolidate integrations and profile access in Settings.
 - [x] Rebuild chat around a centered companion, seated composer, contextual integration prompt, and borderless thinking state.
+- [ ] Redesign the full application with shadcn components using the Paper & Cobalt palette, Space Grotesk + DM Sans, and a centered conversation layout.
