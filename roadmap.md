@@ -22,6 +22,7 @@
 - Push notifications for reminders.
 
 ## Current request
-- [ ] Replace animated avatar with image-based character customization: glasses, colors, shapes, clothes, and more during onboarding.
-- [ ] Place the selected character sitting above the chat composer.
-- [ ] Replace the landing page with the supplied exact studio footer composition, local fonts/video, responsive stacking, and desktop gaze scrubbing.
+- [ ] Show the Nomi landing page only before setup, then continue through registration and onboarding into chat.
+- [ ] Remove bottom navigation and replace it with a clean top bar and responsive sidebar.
+- [ ] Add Projects and Settings destinations; consolidate integrations and profile access in Settings.
+- [ ] Rebuild chat around a centered companion, seated composer, contextual integration prompt, and borderless thinking state.
