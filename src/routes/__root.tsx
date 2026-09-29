@@ -11,8 +11,8 @@ import "../styles/app.css";
 
 const BOOT_STYLE = `
 :root { color-scheme: light; }
-  html, body { margin: 0; background-color: #fbfaf7; }
-  #root { min-height: 100dvh; background-color: #fbfaf7; }
+  html, body { margin: 0; background-color: #f7f7f4; }
+  #root { min-height: 100dvh; background-color: #f7f7f4; }
 html.dark { color-scheme: dark; }
 html.dark, html.dark body, html.dark #root { background-color: #17161c; }
 `;
@@ -37,7 +37,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { name: "theme-color", content: "#fbfaf7" },
+      { name: "theme-color", content: "#f7f7f4" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/logo.svg" },
@@ -45,7 +45,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Cairo:wght@400;500;600;700&display=swap",
       },
     ],
   }),
