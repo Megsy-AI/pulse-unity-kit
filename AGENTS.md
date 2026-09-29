@@ -36,7 +36,8 @@ Do NOT add files under `src/routes/` except real API endpoints — the router is
 - NomiAvatar uses original seated 3D images with coordinated shape, colour, glasses and clothing presets.
 - The call screen is immersive (no shell) and uses the `.nomi-call-edges` animated frame
   with `--nomi-edge-intensity` per call state.
-- UI uses shadcn, Paper & Cobalt semantic tokens, modest radii, Space Grotesk headings, and DM Sans body.
+- UI: shadcn, Paper & Cobalt, modest radii, Space Grotesk + DM Sans.
+- First-time landing is a white full-width narrative; signed-in UI keeps Paper & Cobalt.
 - English and Egyptian Arabic are supported.
 - Navigation uses a top bar and on-demand sidebar; account controls and integrations live in Settings.
 
