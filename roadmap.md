@@ -29,3 +29,4 @@
 - [x] Redesign the full application with shadcn components using the Paper & Cobalt palette, Space Grotesk + DM Sans, and a centered conversation layout.
 - [x] Rebuild the first-time welcome page as a cinematic video opening followed by a clean, white narrative of Nomi's abilities, approvals, integrations, and privacy.
 - [x] Remove the hero video entirely and use a clean white opening.
+- [x] Always open the welcome page at `/` and optimize its initial loading path and avatar assets.

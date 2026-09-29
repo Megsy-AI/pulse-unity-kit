@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion, useInView, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, ArrowRight, CalendarDays, Check, ChevronRight, Globe2, Mail, Menu, MessageCircle, ShieldCheck, ShoppingBag, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -40,14 +40,11 @@ function ApprovalPreview({ companion }: { companion: ReturnType<typeof useNomi>[
 }
 
 export default function LandingPage() {
-  const { ready, companion } = useNomi();
+  const { companion } = useNomi();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const guideY = useTransform(scrollYProgress, [0, 1], [0, -34]);
-  if (!ready) return null;
-  if (companion.onboarded) return <Navigate to="/chat" replace />;
-
   return <main className="landing-page bg-landing-surface text-landing-ink">
     <section className="relative min-h-dvh overflow-hidden bg-landing-surface text-landing-ink">
       <header className="relative z-30 mx-auto grid h-16 w-full max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center px-5 sm:h-20 sm:px-8 lg:px-12">
