@@ -36,9 +36,9 @@ Do NOT add files under `src/routes/` except real API endpoints — the router is
 - NomiAvatar uses original seated 3D images with coordinated shape, colour, glasses and clothing presets.
 - The call screen is immersive (no shell) and uses the `.nomi-call-edges` animated frame
   with `--nomi-edge-intensity` per call state.
-- Colours, gradients, shadows and animations are tokens in `src/styles/app.css`.
-  No hardcoded colour utilities in components.
-- English and Egyptian Arabic through `src/nomi/i18n.ts`; the store sets `lang`/`dir`.
+- Visual values use semantic tokens in `src/styles/app.css`; no hardcoded component colors.
+- English and Egyptian Arabic are supported.
+- Navigation uses a top bar and on-demand sidebar; account controls and integrations live in Settings.
 
 ## 4. Checks before shipping
 
