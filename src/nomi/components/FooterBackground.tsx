@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import footerVideo from "@/assets/footer-scrub.mp4.asset.json";
+import footerVideoWebm from "@/assets/footer-scrub.webm.asset.json";
 import gazeFrames from "./gaze-frames.json";
 
 const TAU = Math.PI * 2;
@@ -96,7 +97,10 @@ export default function FooterBackground() {
 
   return (
     <div className="studio-footer-background" aria-hidden="true">
-      <video ref={videoRef} src={footerVideo.url} muted playsInline preload="auto" />
+      <video ref={videoRef} muted playsInline preload="auto">
+        <source src={footerVideo.url} type="video/mp4" />
+        <source src={footerVideoWebm.url} type="video/webm" />
+      </video>
     </div>
   );
 }
