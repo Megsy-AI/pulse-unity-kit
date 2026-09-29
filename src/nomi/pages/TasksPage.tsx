@@ -34,34 +34,35 @@ export default function TasksPage() {
       />
 
       <div className="mx-auto w-full max-w-2xl px-5 pb-10 md:px-6">
-        <form onSubmit={submit} className="nomi-card space-y-3 p-4">
+        <form onSubmit={submit} className="space-y-3 border-y border-border bg-card py-4">
           <Input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder={t("addTask")}
-            className="h-11 rounded-2xl border-0 bg-secondary text-[15px]"
+            className="h-11 rounded-md bg-card text-[15px]"
           />
           <div className="flex flex-wrap items-center gap-2">
             {(["task", "reminder"] as const).map((option) => (
-              <button
+              <Button
                 key={option}
                 type="button"
                 onClick={() => setKind(option)}
                 className={cn(
-                  "rounded-full px-4 py-1.5 text-sm transition-colors",
-                  kind === option ? "bg-primary text-primary-foreground" : "bg-secondary",
+                  "h-9 rounded-md px-4 text-sm",
+                  kind === option ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground",
                 )}
+                variant={kind === option ? "default" : "secondary"}
               >
                 {option === "task" ? (ar ? "مهمة" : "Task") : ar ? "تذكير" : "Reminder"}
-              </button>
+              </Button>
             ))}
             <Input
               type="datetime-local"
               value={due}
               onChange={(e) => setDue(e.target.value)}
-              className="h-9 w-auto flex-1 rounded-full border-0 bg-secondary text-sm"
+              className="h-9 w-auto flex-1 rounded-md text-sm"
             />
-            <Button type="submit" className="h-9 rounded-full px-5">
+            <Button type="submit" className="h-9 rounded-md px-5">
               <Plus className="size-4" />
               {t("add")}
             </Button>
@@ -79,21 +80,21 @@ export default function TasksPage() {
               <div
                 key={task.id}
                 className={cn(
-                  "group flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 transition-colors",
+                  "group flex items-center gap-3 rounded-md border border-border bg-card px-4 py-3 shadow-sm transition-colors",
                   task.done && "opacity-55",
                 )}
               >
-                <button
+                <Button
                   type="button"
                   onClick={() => toggleTask(task.id)}
                   aria-label={task.title}
                   className={cn(
-                    "flex size-6 shrink-0 items-center justify-center rounded-full border transition-colors",
+                    "size-6 shrink-0 rounded-full border p-0 transition-colors",
                     task.done ? "border-primary bg-primary text-primary-foreground" : "border-border",
                   )}
                 >
-                  {task.done ? <Check className="size-3.5" /> : null}
-                </button>
+                  variant="ghost" size="icon-sm"
+                >{task.done ? <Check className="size-3.5" /> : null}</Button>
                 <div className="min-w-0 flex-1">
                   <p className={cn("truncate text-[15px]", task.done && "line-through")}>
                     {task.title}
@@ -112,14 +113,14 @@ export default function TasksPage() {
                 ) : (
                   <ListChecks className="size-4 text-muted-foreground" strokeWidth={1.75} />
                 )}
-                <button
+                <Button
                   type="button"
                   onClick={() => removeTask(task.id)}
                   aria-label={t("delete")}
-                  className="text-muted-foreground opacity-0 transition-opacity hover:text-destructive group-hover:opacity-100"
+                  variant="ghost" size="icon-sm" className="text-muted-foreground opacity-0 transition-opacity hover:text-destructive group-hover:opacity-100"
                 >
                   <Trash2 className="size-4" />
-                </button>
+                </Button>
               </div>
             ))}
           </div>
