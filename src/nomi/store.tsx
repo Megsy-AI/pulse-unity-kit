@@ -363,7 +363,7 @@ export function NomiProvider({ children }: { children: ReactNode }) {
     (id, patch) => {
       setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, ...patch } : p)));
       if (userId) {
-        const db: Record<string, unknown> = {};
+        const db: { name?: string; description?: string | null; color?: string; archived?: boolean } = {};
         if (patch.name !== undefined) db.name = patch.name;
         if (patch.description !== undefined) db.description = patch.description;
         if (patch.color !== undefined) db.color = patch.color;
