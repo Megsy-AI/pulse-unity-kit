@@ -8,22 +8,13 @@ import { NomiAvatar } from "../avatar/NomiAvatar";
 import { PageHeader } from "../components/NomiShell";
 import type { NomiCompanion, NomiShape } from "../types";
 
-const SHAPES: Array<{ id: NomiShape; en: string; ar: string }> = [
-  { id: "round", en: "Bubble", ar: "فقاعة" },
-  { id: "cat", en: "Kitty", ar: "قطة" },
-  { id: "bear", en: "Bear", ar: "دبدوب" },
-  { id: "star", en: "Star", ar: "نجمة" },
-  { id: "robot", en: "Robo", ar: "روبوت" },
+const LOOKS: Array<{ id: NomiShape; en: string; ar: string; baseColor: string; accentColor: string; glasses: NomiCompanion["glasses"]; outfit: NomiCompanion["outfit"] }> = [
+  { id: "round", en: "Moon drop · Varsity", ar: "قطرة القمر · جاكيت", baseColor: "#B7A9F4", accentColor: "#2856D8", glasses: "cobalt-round", outfit: "varsity" },
+  { id: "robot", en: "Mint pebble · Hoodie", ar: "حصاة نعناع · هودي", baseColor: "#BCE9CF", accentColor: "#142C55", glasses: "clear-square", outfit: "hoodie" },
+  { id: "star", en: "Peach star · Overalls", ar: "نجمة خوخ · أوفرول", baseColor: "#FFA987", accentColor: "#F38CAD", glasses: "pink-heart", outfit: "overalls" },
+  { id: "bear", en: "Ivory cloud · Knit", ar: "سحابة عاجي · تريكو", baseColor: "#F4E8D5", accentColor: "#D52D27", glasses: "black-oval", outfit: "knit" },
 ];
-
-const PALETTES = [
-  { base: "#7C5CFF", accent: "#FFB86B" },
-  { base: "#38BDF8", accent: "#FDE68A" },
-  { base: "#F472B6", accent: "#A7F3D0" },
-  { base: "#34D399", accent: "#FCA5A5" },
-  { base: "#F59E0B", accent: "#818CF8" },
-  { base: "#111827", accent: "#F9A8D4" },
-];
+const chooseLook = (look: (typeof LOOKS)[number]) => ({ shape: look.id, baseColor: look.baseColor, accentColor: look.accentColor, glasses: look.glasses, outfit: look.outfit });
 
 const PERSONALITIES: Array<{ id: NomiCompanion["personality"]; en: string; ar: string }> = [
   { id: "friendly", en: "Friendly", ar: "ودود" },
@@ -99,8 +90,8 @@ export default function CharacterPage() {
       />
 
       <div className="mx-auto grid w-full max-w-4xl gap-5 px-5 pb-10 md:grid-cols-[280px_1fr] md:px-6">
-        <div className="flex h-fit flex-col items-center rounded-[2rem] bg-primary-soft/50 p-6">
-          <NomiAvatar companion={companion} pose="wave" size={220} />
+        <div className="sticky top-8 flex h-fit flex-col items-center overflow-hidden rounded-3xl bg-primary-soft/50 p-4">
+          <NomiAvatar companion={companion} pose="idle" size={250} floating={false} />
           <p className="mt-3 text-lg font-semibold">{companion.name}</p>
         </div>
 
@@ -114,46 +105,27 @@ export default function CharacterPage() {
             />
           </Section>
 
-          <Section title={t("shape")}>
-            <div className="grid grid-cols-5 gap-2">
-              {SHAPES.map((shape) => (
+          <Section title={ar ? "المظهر والنظارة والملابس" : "Look, glasses and outfit"}>
+            <div className="grid grid-cols-2 gap-2">
+              {LOOKS.map((look) => (
                 <button
-                  key={shape.id}
+                  key={look.id}
                   type="button"
-                  onClick={() => updateCompanion({ shape: shape.id })}
+                  onClick={() => updateCompanion(chooseLook(look))}
                   className={cn(
-                    "rounded-2xl border p-2 transition-colors",
-                    companion.shape === shape.id
+                    "rounded-xl border p-2 text-start transition-colors",
+                    companion.shape === look.id
                       ? "border-primary bg-primary-soft"
                       : "border-border hover:border-primary/40",
                   )}
                 >
                   <NomiAvatar
-                    companion={{ ...companion, shape: shape.id }}
-                    size={56}
+                    companion={{ ...companion, ...chooseLook(look) }}
+                    size={110}
                     floating={false}
                   />
+                  <span className="block px-1 pb-1 text-xs font-medium">{ar ? look.ar : look.en}</span>
                 </button>
-              ))}
-            </div>
-          </Section>
-
-          <Section title={t("colors")}>
-            <div className="flex flex-wrap gap-3">
-              {PALETTES.map((palette) => (
-                <button
-                  key={palette.base}
-                  type="button"
-                  aria-label={palette.base}
-                  onClick={() =>
-                    updateCompanion({ baseColor: palette.base, accentColor: palette.accent })
-                  }
-                  className={cn(
-                    "size-11 rounded-full ring-offset-2 ring-offset-background transition-all",
-                    companion.baseColor === palette.base && "ring-2 ring-primary",
-                  )}
-                  style={{ background: `linear-gradient(135deg, ${palette.base}, ${palette.accent})` }}
-                />
               ))}
             </div>
           </Section>

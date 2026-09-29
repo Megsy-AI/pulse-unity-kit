@@ -65,10 +65,6 @@ export default function ChatPage() {
     <div className="flex h-dvh min-h-[38rem] flex-col overflow-hidden">
       <header className="flex h-20 shrink-0 items-center justify-between border-b border-border/70 px-5 md:px-9">
         <div className="flex items-center gap-3">
-          <div className="relative grid size-11 place-items-center rounded-full bg-secondary">
-            <NomiAvatar companion={companion} size={48} floating={false} />
-            <span className="absolute bottom-0 end-0 size-3 rounded-full border-2 border-background bg-success" />
-          </div>
           <div>
             <p className="text-[15px] font-bold">{companion.name}</p>
             <p className="text-xs font-medium text-muted-foreground">{thinking ? (ar ? "بيفكر…" : "Thinking…") : t("greeting")}</p>
@@ -82,8 +78,7 @@ export default function ChatPage() {
       <main className="relative mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col px-4 md:px-8">
         {empty ? (
           <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto py-5 text-center md:py-8">
-            <NomiAvatar companion={companion} pose="wave" speaking={speaking} size={240} />
-            <h1 className="mt-1 text-3xl font-extrabold md:text-4xl">{ar ? `أهلًا، أنا ${companion.name}` : `Hi, I'm ${companion.name}`}</h1>
+            <h1 className="text-3xl font-extrabold md:text-4xl">{ar ? `أهلًا، أنا ${companion.name}` : `Hi, I'm ${companion.name}`}</h1>
             <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">{t("heroBody")}</p>
             <div className="mt-7 grid w-full max-w-xl grid-cols-2 gap-2.5 text-start">
               {suggestions.map(({ label, hint, icon: Icon }) => (
@@ -97,11 +92,10 @@ export default function ChatPage() {
         ) : (
           <Conversation className="min-h-0 flex-1">
             <ConversationContent className="mx-auto w-full max-w-3xl gap-7 px-1 py-7 md:px-4">
-              {messages.map((message, index) => {
+              {messages.map((message) => {
                 const label = POSE_LABEL[message.pose]?.[ar ? "ar" : "en"];
                 return (
                   <Message key={message.id} from={message.role} className="animate-nomi-rise gap-3">
-                    {message.role === "assistant" ? <NomiAvatar companion={companion} pose={message.pose} speaking={speaking && index === messages.length - 1} size={52} floating={false} className="mt-[-8px]" /> : null}
                     <div className={cn("min-w-0", message.role === "assistant" && "flex-1")}>
                       {message.role === "assistant" && label ? <p className="mb-1.5 text-[11px] font-bold text-primary">{label}</p> : null}
                       <MessageContent className={cn(message.role === "assistant" && "w-full max-w-none bg-transparent p-0")}>
@@ -111,19 +105,22 @@ export default function ChatPage() {
                   </Message>
                 );
               })}
-              {thinking ? <div className="flex items-center gap-3"><NomiAvatar companion={companion} pose={detectPose(messages.at(-1)?.content ?? "")} size={52} floating={false} /><Shimmer className="text-sm font-medium">{ar ? "نومي بيفكر…" : "Nomi is thinking…"}</Shimmer></div> : null}
+              {thinking ? <div className="flex items-center gap-3"><Shimmer className="text-sm font-medium">{ar ? "نومي بيفكر…" : "Nomi is thinking…"}</Shimmer></div> : null}
             </ConversationContent>
             <ConversationScrollButton />
           </Conversation>
         )}
 
-        <PromptInput onSubmit={({ text }) => submit(text)} className="relative z-10 mx-auto mb-20 w-full max-w-3xl rounded-2xl bg-card shadow-[var(--shadow-composer)] md:mb-5">
+        <div className="relative z-10 mx-auto mt-28 mb-20 w-full max-w-3xl md:mb-5">
+          <NomiAvatar companion={companion} pose={pose || detectPose(draft)} speaking={speaking} size={150} floating={false} className="pointer-events-none absolute -top-[132px] end-5 z-[-1] drop-shadow-sm md:end-9" />
+        <PromptInput onSubmit={({ text }) => submit(text)} className="w-full rounded-2xl bg-card shadow-[var(--shadow-composer)]">
           <PromptInputTextarea value={draft} onChange={(e) => setDraft(e.target.value)} placeholder={t("askPlaceholder")} className="min-h-14 px-4 pt-3.5 text-[15px]" />
           <PromptInputFooter className="px-2.5 pb-2.5">
             <PromptInputTools><span className="px-1 text-[11px] font-medium text-muted-foreground">{POSE_LABEL[pose]?.[ar ? "ar" : "en"] || (ar ? "جاهز أساعدك" : "Ready when you are")}</span></PromptInputTools>
             <PromptInputSubmit status={thinking ? "submitted" : "ready"} disabled={!draft.trim() || thinking} aria-label={t("send")} className="size-9 rounded-full" />
           </PromptInputFooter>
         </PromptInput>
+        </div>
       </main>
     </div>
   );
