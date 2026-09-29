@@ -3,7 +3,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion, useInView, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, ArrowRight, CalendarDays, Check, ChevronRight, Globe2, Mail, Menu, MessageCircle, ShieldCheck, ShoppingBag, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroVideo from "@/assets/nomi-cinematic-hero.mp4.asset.json";
 import { NomiAvatar } from "../avatar/NomiAvatar";
 import { useNomi } from "../store";
 
@@ -50,20 +49,19 @@ export default function LandingPage() {
   if (companion.onboarded) return <Navigate to="/chat" replace />;
 
   return <main className="landing-page bg-landing-surface text-landing-ink">
-    <section className="relative min-h-dvh overflow-hidden bg-landing-ink text-landing-on-dark">
-      <video className="absolute inset-0 size-full object-cover object-center" src={heroVideo.url} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
-      <div className="landing-video-shade absolute inset-0" />
+    <section className="relative min-h-dvh overflow-hidden bg-landing-surface text-landing-ink">
       <header className="relative z-30 mx-auto grid h-16 w-full max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center px-5 sm:h-20 sm:px-8 lg:px-12">
-        <a href="#top" className="min-w-0 font-medium uppercase tracking-[0.25em] text-landing-on-dark sm:tracking-[0.3em]">Nomi</a>
-        <nav className="hidden items-center gap-8 md:flex">{navItems.map((item) => <a key={item.href} href={item.href} className="text-xs font-light uppercase tracking-[0.2em] text-landing-on-dark-muted transition-colors duration-300 hover:text-landing-on-dark">{item.label}</a>)}<Button variant="outline" size="sm" className="rounded-full border-landing-glass-line bg-landing-glass text-landing-on-dark hover:bg-landing-glass-hover hover:text-landing-on-dark" onClick={() => navigate("/auth")}>Sign in</Button></nav>
-        <Button variant="ghost" size="icon" className="text-landing-on-dark hover:bg-landing-glass md:hidden" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? "Close menu" : "Open menu"}>{menuOpen ? <X className="size-[22px]" /> : <Menu className="size-[22px]" />}</Button>
+        <a href="#top" className="min-w-0 font-medium uppercase tracking-[0.25em] text-landing-ink sm:tracking-[0.3em]">Nomi</a>
+        <nav className="hidden items-center gap-8 md:flex">{navItems.map((item) => <a key={item.href} href={item.href} className="text-xs font-light uppercase tracking-[0.2em] text-landing-muted transition-colors duration-300 hover:text-landing-ink">{item.label}</a>)}<Button variant="outline" size="sm" className="rounded-full border-landing-line bg-landing-surface text-landing-ink hover:bg-landing-soft" onClick={() => navigate("/auth")}>Sign in</Button></nav>
+        <Button variant="ghost" size="icon" className="text-landing-ink hover:bg-landing-soft md:hidden" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? "Close menu" : "Open menu"}>{menuOpen ? <X className="size-[22px]" /> : <Menu className="size-[22px]" />}</Button>
       </header>
       <AnimatePresence>{menuOpen && <motion.nav initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3, ease: "easeOut" }} className="mobile-menu-glass fixed inset-x-4 top-16 z-50 flex flex-col gap-5 rounded-2xl py-8 md:hidden">{navItems.map((item, index) => <motion.a key={item.href} href={item.href} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 + index * 0.06 }} onClick={() => setMenuOpen(false)} className="px-8 text-sm font-light uppercase tracking-[0.25em] text-landing-on-dark-muted hover:text-landing-on-dark">{item.label}</motion.a>)}<Button className="mx-6 mt-2 rounded-full bg-landing-on-dark text-landing-ink hover:bg-landing-on-dark-muted" onClick={() => navigate("/auth")}>Sign in</Button></motion.nav>}</AnimatePresence>
       <div id="top" className="relative z-10 flex min-h-[calc(100dvh-4rem)] flex-col items-center justify-center px-5 pb-24 pt-12 text-center sm:px-8 sm:pt-16 md:min-h-[calc(100dvh-5rem)] md:pt-24">
+        <motion.div initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="mb-5"><NomiAvatar companion={companion} pose="wave" size={118} floating={false} /></motion.div>
         <h1 className="font-garamond mb-6 text-5xl font-normal leading-[1.08] tracking-normal sm:mb-8 sm:text-6xl md:text-8xl lg:text-9xl"><StaggeredFade>MEET YOUR</StaggeredFade><StaggeredFade>OTHER SELF</StaggeredFade></h1>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.6 }} className="mb-8 max-w-xs text-sm font-light leading-relaxed text-landing-on-dark-muted sm:mb-10 sm:max-w-md sm:text-base md:text-lg">Nomi remembers the details, takes care of the next step,<br className="hidden sm:block" /> and leaves more of your day for you.</motion.p>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 2 }}><Button size="lg" className="liquid-glass h-auto rounded-full px-7 py-3.5 text-xs uppercase tracking-[0.18em] text-landing-on-dark sm:px-10 sm:py-4 sm:tracking-[0.2em]" onClick={() => navigate("/auth")}>Begin with Nomi</Button></motion.div>
-        <a href="#meet" aria-label="Explore Nomi" className="absolute bottom-8 flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-landing-on-dark-muted"><span>Explore</span><ArrowDown className="size-4" /></a>
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 1.6 }} className="mb-8 max-w-xs text-sm font-light leading-relaxed text-landing-muted sm:mb-10 sm:max-w-md sm:text-base md:text-lg">Nomi remembers the details, takes care of the next step,<br className="hidden sm:block" /> and leaves more of your day for you.</motion.p>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 2 }}><Button size="lg" className="h-auto rounded-full bg-landing-ink px-7 py-3.5 text-xs uppercase tracking-[0.18em] text-landing-on-dark hover:bg-landing-blue sm:px-10 sm:py-4 sm:tracking-[0.2em]" onClick={() => navigate("/auth")}>Begin with Nomi</Button></motion.div>
+        <a href="#meet" aria-label="Explore Nomi" className="absolute bottom-8 flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-landing-muted"><span>Explore</span><ArrowDown className="size-4" /></a>
       </div>
     </section>
 
