@@ -4,7 +4,7 @@ import type { NomiCompanion, NomiPose } from "../types";
 import { useLipSync } from "./useLipSync";
 
 interface NomiAvatarProps {
-  companion: Pick<NomiCompanion, "shape" | "baseColor" | "accentColor">;
+  companion: Pick<NomiCompanion, "name" | "shape" | "baseColor" | "accentColor">;
   pose?: NomiPose;
   speaking?: boolean;
   getLevel?: () => number;
