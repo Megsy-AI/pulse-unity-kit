@@ -30,3 +30,4 @@
 - [x] Rebuild the first-time welcome page as a cinematic video opening followed by a clean, white narrative of Nomi's abilities, approvals, integrations, and privacy.
 - [x] Remove the hero video entirely and use a clean white opening.
 - [x] Always open the welcome page at `/` and optimize its initial loading path and avatar assets.
+- [x] Rebuild the welcome story with the Nomi check logo, rotating promises, character-led sign-in opening, and original conversation, action, approval, goals, and integrations artwork.
