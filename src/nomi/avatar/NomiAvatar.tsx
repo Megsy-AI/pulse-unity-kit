@@ -20,7 +20,7 @@ function NomiAvatarBase({
   companion,
   pose = "idle",
   speaking = false,
-  getLevel,
+  getLevel: _getLevel,
   size = 220,
   floating = true,
   className,

@@ -92,7 +92,7 @@ export default function ChatPage() {
         ) : (
           <Conversation className="min-h-0 flex-1">
             <ConversationContent className="mx-auto w-full max-w-3xl gap-7 px-1 py-7 md:px-4">
-              {messages.map((message, index) => {
+              {messages.map((message) => {
                 const label = POSE_LABEL[message.pose]?.[ar ? "ar" : "en"];
                 return (
                   <Message key={message.id} from={message.role} className="animate-nomi-rise gap-3">
