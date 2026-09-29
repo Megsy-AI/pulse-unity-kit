@@ -17,3 +17,8 @@
 - Nomi creating tasks and memories automatically from the conversation.
 - Real integrations: phone calls, email, calendar, web tasks (permission toggles exist).
 - Push notifications for reminders.
+
+## Current request
+- [ ] Replace animated avatar with image-based character customization: glasses, colors, shapes, clothes, and more during onboarding.
+- [ ] Place the selected character sitting above the chat composer.
+- [ ] Replace the landing page with the supplied exact studio footer composition, local fonts/video, responsive stacking, and desktop gaze scrubbing.
