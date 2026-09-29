@@ -12,6 +12,9 @@
 - Redesigned Nomi around the original animated moon-drop companion, clean chat, contextual action cards, and lighter navigation.
 
 ## Open
+- [x] Replace animated avatar with image-based character customization: glasses, colors, shapes, clothes, and more during onboarding.
+- [x] Place the selected character sitting above the chat composer.
+- [x] Replace the landing page with the supplied studio footer composition, local fonts/video, responsive stacking, and desktop gaze scrubbing.
 - Real voice on the call screen (speech-to-text + text-to-speech); the screen is currently
   a visual simulation with mic/speaker controls.
 - Nomi creating tasks and memories automatically from the conversation.

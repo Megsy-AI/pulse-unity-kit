@@ -300,6 +300,7 @@
 .nomi-shopping-bag, .nomi-phone { fill: var(--primary); }
 .nomi-thoughts { opacity: 0.74; }
 .nomi-sparkles { fill: var(--accent); }
+.nomi-image-float { transform: translateY(0); }
 
 /* Animated colour edges used by the call screen. */
 .nomi-call-edges::before {
